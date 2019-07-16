@@ -124,6 +124,22 @@ if (!doNotTrack) {
 
 
 
+  <div id="git-comments"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+    var gitment = new Gitment({
+      
+      owner: 'jankeyfu',
+      repo: 'jankeyfu.github.io',
+      oauth: {
+        client_id: 'd47f0b7d7087f17e8775',
+        client_secret: 'b6ae9afeb9c5661524445f873049291e716d5369',
+      }
+    })
+    gitment.render('git-comments')
+</script>
+
 
 			</div>
 			<aside class="sidebar"><div class="widget-search widget">
