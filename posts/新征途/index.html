@@ -126,18 +126,32 @@ if (!doNotTrack) {
 
   <div id="git-comments"></div>
   <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+  <script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.js"></script>
+
   <script>
-    var gitment = new Gitment({
-      
-      owner: 'jankeyfu',
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    const gitalk = new Gitalk({
+      clientID: 'd47f0b7d7087f17e8775',
+      clientSecret: 'b6ae9afeb9c5661524445f873049291e716d5369',
       repo: 'jankeyfu.github.io',
-      oauth: {
-        client_id: 'd47f0b7d7087f17e8775',
-        client_secret: 'b6ae9afeb9c5661524445f873049291e716d5369',
-      }
+      owner: 'jankeyfu',
+      admin: ['jankeyfu.github.io'],
+      id: md5(location.pathname),      
+      distractionFreeMode: false  
     })
-    gitment.render('git-comments')
+    gitalk.render('git-comments')
 </script>
 
 
