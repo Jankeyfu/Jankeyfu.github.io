@@ -6,10 +6,19 @@
     <description>Recent content in Categories on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 18 Aug 2019 22:17:58 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 23 Aug 2019 18:03:32 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>源码</title>
+      <link>http://jankeyfu.github.io/categories/%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Fri, 23 Aug 2019 18:03:32 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/categories/%E6%BA%90%E7%A0%81/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>面试</title>
