@@ -4,15 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Redis 数据结构 —— 字符串 - 温故知新以为师</title>
+	<title>MySQL EXPLAIN - 温故知新以为师</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="Redis 数据结构 —— 字符串" />
-<meta property="og:description" content="redis 是一个基于C语言设计的开源的高性能的内存型数据结构存储系统，它可以用作数据库、缓存和消息中间件等。它支持以下五种数据格式： 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）和有序集合（sorted sets）。今天就从源码的角度分析一下这五种数据格式是怎么实现的。" />
+	<meta property="og:title" content="MySQL EXPLAIN" />
+<meta property="og:description" content="在日常开发工作中，你是否经常遇到自己写的sql执行时间过长影响系统性能的问题却无从下手？这时候你就需要一个工具，这就是EXPLAIN命令，它将全面分析我们所编写的sql语句，包括表的查询顺序，索引的使用情况以及预估的涉及数据量大小等等，接下来我们就一起来探索一下，如何分析我们写的sql语句的性能，以便写出更优，执行速度更快的sql吧。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://jankeyfu.github.io/posts/redis/data_struct/" />
-<meta property="article:published_time" content="2019-08-11T15:58:49&#43;08:00"/>
-<meta property="article:modified_time" content="2019-08-11T15:58:49&#43;08:00"/>
+<meta property="og:url" content="http://jankeyfu.github.io/posts/db/mysql_explain/" />
+<meta property="article:published_time" content="2019-08-26T10:07:21&#43;08:00"/>
+<meta property="article:modified_time" content="2019-08-26T10:07:21&#43;08:00"/>
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -71,11 +71,11 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">Redis 数据结构 —— 字符串</h1>
+			<h1 class="post__title">MySQL EXPLAIN</h1>
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-08-11T15:58:49">August 11, 2019</time>
+	<time class="meta__text" datetime="2019-08-26T10:07:21">August 26, 2019</time>
 </div>
 
 <div class="meta__item-categories meta__item">
@@ -84,58 +84,96 @@ if (!doNotTrack) {
 </div>
 </div>
 		</header><div class="content post__content clearfix">
-			<p>redis 是一个基于C语言设计的开源的高性能的内存型数据结构存储系统，它可以用作数据库、缓存和消息中间件等。它支持以下五种数据格式： 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）和有序集合（sorted sets）。今天就从源码的角度分析一下这五种数据格式是怎么实现的。</p>
+			<p>在日常开发工作中，你是否经常遇到自己写的sql执行时间过长影响系统性能的问题却无从下手？这时候你就需要一个工具，这就是<code>EXPLAIN</code>命令，它将全面分析我们所编写的sql语句，包括表的查询顺序，索引的使用情况以及预估的涉及数据量大小等等，接下来我们就一起来探索一下，如何分析我们写的sql语句的性能，以便写出更优，执行速度更快的sql吧。</p>
 
-<h4 id="字符串">字符串</h4>
+<p><code>EXPLAIN</code>命令的基本用法是，在<code>SELECT, DELETE, INSERT, REPLACE, UPDATE</code>这些sql的最前面加上<code>EXPLAIN</code>即可，其结果如下图所示。</p>
 
-<h5 id="redis字符串操作命令">Redis字符串操作命令</h5>
+<p><img src="https://jankeyfu-blog.oss-cn-beijing.aliyuncs.com/explain_demo.png" alt="image-20190826102937756" /></p>
 
-<blockquote>
-<p><code>127.0.0.1:6379&gt;</code> 为redis客户端显示内容</p>
-</blockquote>
+<p>我们先来看一下它的各个字段的含义，至于字段值，后面再详细地说明。</p>
 
-<ul>
-<li><p>设置、获取key的内容，时间复杂度<code>O(1)</code>，当key不存在的时候，<code>GET</code>返回的值为<code>nil</code>，在2.6.12版本后，redis为<code>SET</code>命令增加了一些新参数，<code>EX</code>表示过期时间（单位秒）等价于<code>SETEX</code>命令，<code>PX</code>过期时间（单位毫秒）等价于<code>PSETEX</code>,<code>NX</code>只有当key不存在的时候才能设置成功等价于<code>SETNX</code>，<code>XX</code>只有当key存在的时候才能设置成功。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET key
-<span style="color:#4070a0">&#34;value&#34;</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET nil
-<span style="color:#666">(</span>nil<span style="color:#666">)</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value EX <span style="color:#40a070">10</span>
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value PX <span style="color:#40a070">10</span>
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value NX
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value XX
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value NX <span style="color:#60a0b0;font-style:italic">#当key存在的时候则设置不成功</span>
-<span style="color:#666">(</span>nil<span style="color:#666">)</span></code></pre></div>
-<ul>
-<li>字符串追加命令<code>APPEND</code>，当key不存在的时候，次命令相当于<code>SET</code>，当key存在的时候，相当于在字符串后面拼接新的内容。时间复杂度<code>O(1)</code></li>
-</ul>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#40a070">127</span>.0.0.1:6379&gt; APPEND key value
-<span style="color:#666">(</span>integer<span style="color:#666">)</span> <span style="color:#40a070">5</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; APPEND key <span style="color:#4070a0">&#34;is 5 characters long&#34;</span>
-<span style="color:#666">(</span>integer<span style="color:#666">)</span> <span style="color:#40a070">25</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET key
-<span style="color:#4070a0">&#34;valueis 5 characters long&#34;</span></code></pre></div></li>
-</ul>
+<table>
+<thead>
+<tr>
+<th align="center">字段</th>
+<th align="center">释义</th>
+</tr>
+</thead>
 
-<hr />
+<tbody>
+<tr>
+<td align="center">id</td>
+<td align="center">执行SELECT语句的标识</td>
+</tr>
 
-<blockquote>
-<p><a href="https://book.douban.com/subject/25900156/">《redis 设计与实现》  黄建宏</a></p>
+<tr>
+<td align="center">select_type</td>
+<td align="center">SELECT类型</td>
+</tr>
 
-<p><a href="http://redis.cn/">redis 中文网</a></p>
-</blockquote>
+<tr>
+<td align="center">table</td>
+<td align="center">SQL语句所使用到的表</td>
+</tr>
+
+<tr>
+<td align="center">partitions</td>
+<td align="center">分布式表</td>
+</tr>
+
+<tr>
+<td align="center">type</td>
+<td align="center">连接类型</td>
+</tr>
+
+<tr>
+<td align="center">possible_keys</td>
+<td align="center">可能用到的索引字段</td>
+</tr>
+
+<tr>
+<td align="center">key</td>
+<td align="center">实际使用的索引</td>
+</tr>
+
+<tr>
+<td align="center">key_len</td>
+<td align="center">索引使用长度</td>
+</tr>
+
+<tr>
+<td align="center">ref</td>
+<td align="center">连接匹配关系</td>
+</tr>
+
+<tr>
+<td align="center">rows</td>
+<td align="center">估算记录的行数</td>
+</tr>
+
+<tr>
+<td align="center">filtered</td>
+<td align="center">被条件过滤的比例</td>
+</tr>
+
+<tr>
+<td align="center">Extra</td>
+<td align="center">查询的额外信息</td>
+</tr>
+</tbody>
+</table>
+
+<h5 id="id">id</h5>
+
+<p>查询标识，标识查询的顺序，次字段可能为空，当有<code>Union</code>联合查询的时候，有一行数据中的id将会是空，表示是从联合数据<code>&lt;unionM,N&gt;</code>中查询。id相同时执行顺序自上而下。</p>
+
+<p><img src="/img/image-20190826205614663-6824289.png" alt="image-20190826205614663" /></p>
 		</div>
 		
 <div class="post__tags tags clearfix">
 	<svg class="tags__icon icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
-		<li class="tags__item"><a class="tags__link btn" href="/tags/redis/" rel="tag">redis</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/mysql/" rel="tag">mysql</a></li>
 	</ul>
 </div>
 	</article>
@@ -155,10 +193,10 @@ OK
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/posts/net/what_happens_when_enter_url_into_browser/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">当你在浏览器中输入网址后都发生了什么？</p></a>
+		<a class="post-nav__link" href="/posts/opensource/logrus/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">Logrus</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/posts/db/redis_data_struct/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Redis 数据结构 —— 字符串</p></a>
+		<a class="post-nav__link" href="/posts/golang/reflect_base/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Golang Reflect基础篇</p></a>
 	</div>
 </nav>
 

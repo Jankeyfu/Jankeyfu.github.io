@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql on 温故知新以为师</title>
+    <link>http://jankeyfu.github.io/tags/mysql/</link>
+    <description>Recent content in mysql on 温故知新以为师</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 26 Aug 2019 10:07:21 +0800</lastBuildDate>
+    
+	<atom:link href="http://jankeyfu.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MySQL EXPLAIN</title>
+      <link>http://jankeyfu.github.io/posts/db/mysql_explain/</link>
+      <pubDate>Mon, 26 Aug 2019 10:07:21 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/db/mysql_explain/</guid>
+      <description>&lt;p&gt;在日常开发工作中，你是否经常遇到自己写的sql执行时间过长影响系统性能的问题却无从下手？这时候你就需要一个工具，这就是&lt;code&gt;EXPLAIN&lt;/code&gt;命令，它将全面分析我们所编写的sql语句，包括表的查询顺序，索引的使用情况以及预估的涉及数据量大小等等，接下来我们就一起来探索一下，如何分析我们写的sql语句的性能，以便写出更优，执行速度更快的sql吧。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
