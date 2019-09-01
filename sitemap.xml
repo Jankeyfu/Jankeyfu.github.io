@@ -100,11 +100,6 @@
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/redis/data_struct/</loc>
-    <lastmod>2019-08-11T15:58:49+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://jankeyfu.github.io/tags/redis/</loc>
     <lastmod>2019-08-11T15:58:49+08:00</lastmod>
     <priority>0</priority>
