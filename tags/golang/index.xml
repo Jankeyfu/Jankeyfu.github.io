@@ -13,11 +13,31 @@
     
     <item>
       <title>Golang Reflect基础篇</title>
-      <link>http://jankeyfu.github.io/posts/golang/reflect_base/</link>
+      <link>http://jankeyfu.github.io/posts/language/go_reflect_base/</link>
       <pubDate>Sat, 31 Aug 2019 14:30:33 +0800</pubDate>
       
-      <guid>http://jankeyfu.github.io/posts/golang/reflect_base/</guid>
+      <guid>http://jankeyfu.github.io/posts/language/go_reflect_base/</guid>
       <description>&lt;p&gt;套用维基百科的解释来说，反射就是指计算机程序在运行时（Run time）可以访问、检测和修改它本身状态或行为的一种能力。用比喻来说，反射就是程序在运行的时候能够“观察”并且修改自己的行为。Go语言和很多语言一样，支持反射操作，接下来就一起学习下，反射在Go语言中是怎么使用的。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Logrus</title>
+      <link>http://jankeyfu.github.io/posts/opensource/logrus/</link>
+      <pubDate>Fri, 23 Aug 2019 18:03:32 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/opensource/logrus/</guid>
+      <description>&lt;p&gt;logrus是Go语言编写的结构化日志工具，拥有丰富的日志API，支持自定义格式输出同时也支持hook操作，是目前比较流行的Go语言日志记录工具。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>http://jankeyfu.github.io/posts/interview/go/</link>
+      <pubDate>Sun, 18 Aug 2019 22:17:58 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/interview/go/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;本文是长期维护的Go相关的笔试面试题合集&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
   </channel>

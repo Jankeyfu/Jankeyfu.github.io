@@ -163,11 +163,87 @@ if (!doNotTrack) {
 </tbody>
 </table>
 
-<h5 id="id">id</h5>
+<h4 id="id">id</h4>
 
 <p>查询标识，标识查询的顺序，次字段可能为空，当有<code>Union</code>联合查询的时候，有一行数据中的id将会是空，表示是从联合数据<code>&lt;unionM,N&gt;</code>中查询。id相同时执行顺序自上而下。</p>
 
 <p><img src="/img/image-20190826205614663-6824289.png" alt="image-20190826205614663" /></p>
+
+<h4 id="select-type">select_type</h4>
+
+<table>
+<thead>
+<tr>
+<th align="center">select_type</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">simple</td>
+<td align="center">不使用 <code>union</code> 或者子查询</td>
+</tr>
+
+<tr>
+<td align="center">primary</td>
+<td align="center">最外层查询：union 的第一层查询&hellip;</td>
+</tr>
+
+<tr>
+<td align="center">union</td>
+<td align="center">union 查询中第二个查询的表或者之后查询的表</td>
+</tr>
+
+<tr>
+<td align="center">union_result</td>
+<td align="center">union 查询中间过程的联合结果</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="type">type</h4>
+
+<ul>
+<li><p><strong>system</strong> 官方文档介绍说当表中只有一行数据的时候，显示的连接类型即为 <code>system</code> ，但是在实际测试中，一致没有出现，我的 <code>MySQL server</code> 版本是 <code>5.7.26</code>。</p></li>
+
+<li><p><strong>const</strong> 查询结果只有一条数据，一般是使用 <code>primary key</code> 或者 <code>unique key</code> 进行查询时为这种连接类型，<code>const</code> 查询类型非常快。</p></li>
+</ul>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">  <span style="color:#60a0b0;font-style:italic">-- id为primary key
+</span><span style="color:#60a0b0;font-style:italic"></span>  <span style="color:#007020;font-weight:bold">EXPLAIN</span> <span style="color:#007020;font-weight:bold">SELECT</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">FROM</span> employee <span style="color:#007020;font-weight:bold">WHERE</span> id <span style="color:#666">=</span> <span style="color:#40a070">1</span>;</code></pre></div>
+<ul>
+<li><strong>eq_ref</strong> 在连接查询中，使用连接表中某一张表的主键或者非空唯一建作为主键进行查询，每一次只会从前面的表中读取一行数据。（ps：一般是前一张表的数据查询结果比当前表的多）</li>
+</ul>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">  <span style="color:#60a0b0;font-style:italic">-- e.code 为unique_key
+</span><span style="color:#60a0b0;font-style:italic"></span>  <span style="color:#007020;font-weight:bold">EXPLAIN</span> <span style="color:#007020;font-weight:bold">SELECT</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">FROM</span> employee_extend ee 
+  <span style="color:#007020;font-weight:bold">JOIN</span>  employee e <span style="color:#007020;font-weight:bold">on</span> e.CODE <span style="color:#666">=</span> ee.CODE</code></pre></div>
+<ul>
+<li><strong>ref</strong> 在连接查询中，使用当前表的索引字段查询联合数据中的项。</li>
+</ul>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">  <span style="color:#60a0b0;font-style:italic">-- e.department_id 为普通key
+</span><span style="color:#60a0b0;font-style:italic"></span>  <span style="color:#007020;font-weight:bold">EXPLAIN</span> <span style="color:#007020;font-weight:bold">SELECT</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">FROM</span> employee e 
+  <span style="color:#007020;font-weight:bold">JOIN</span> employee_extend ee <span style="color:#007020;font-weight:bold">ON</span> e.CODE <span style="color:#666">=</span> ee.CODE
+  <span style="color:#007020;font-weight:bold">WHERE</span> e.department_id <span style="color:#666">=</span> <span style="color:#40a070">2</span></code></pre></div>
+<ul>
+<li><strong>fulltext</strong> 在连接查询中，使用全文索引字段查询数据</li>
+</ul>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">  <span style="color:#60a0b0;font-style:italic">-- introduction 为fulltext索引
+</span><span style="color:#60a0b0;font-style:italic"></span>  <span style="color:#007020;font-weight:bold">EXPLAIN</span> <span style="color:#007020;font-weight:bold">SELECT</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">FROM</span> employee <span style="color:#007020;font-weight:bold">WHERE</span> <span style="color:#007020;font-weight:bold">match</span>(introduction) <span style="color:#06287e">against</span> (<span style="color:#4070a0">&#34;王五*&#34;</span> <span style="color:#007020;font-weight:bold">in</span> boolean mode)</code></pre></div>
+<ul>
+<li><strong>range</strong> 使用索引的区间进行数据筛选，如 <code>IN</code> , <code>BETWEEN a AND b</code>,</li>
+</ul>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">  <span style="color:#60a0b0;font-style:italic">-- department_id 为索引字段
+</span><span style="color:#60a0b0;font-style:italic"></span>  <span style="color:#007020;font-weight:bold">EXPLAIN</span> <span style="color:#007020;font-weight:bold">SELECT</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">FROM</span> employee <span style="color:#007020;font-weight:bold">WHERE</span> department_id <span style="color:#007020;font-weight:bold">in</span>(<span style="color:#40a070">1</span>,<span style="color:#40a070">2</span>)</code></pre></div>
+<ul>
+<li><strong>index</strong> 全索引字段扫描，通常出现在查询的字段为索引字段且不包含查询条件的情况，和 all 进行全表扫描类型，但是索引字段数量通常比全表数据要小得多，除了唯一索引。</li>
+</ul>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">  <span style="color:#60a0b0;font-style:italic">-- id 为primary_key
+</span><span style="color:#60a0b0;font-style:italic"></span>  <span style="color:#007020;font-weight:bold">EXPLAIN</span> <span style="color:#007020;font-weight:bold">SELECT</span> id <span style="color:#007020;font-weight:bold">FROM</span> employee</code></pre></div>
+<ul>
+<li><strong>all</strong> 全表扫描，如果第一张表的查询方式是 all，这是非常不合适的，有严重的性能问题，需要增加索引进行优化。</li>
+</ul>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">  <span style="color:#60a0b0;font-style:italic">-- name 为非索引字段
+</span><span style="color:#60a0b0;font-style:italic"></span>  <span style="color:#007020;font-weight:bold">EXPLAIN</span> <span style="color:#007020;font-weight:bold">SELECT</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">FROM</span> employee <span style="color:#007020;font-weight:bold">WHERE</span> NAME <span style="color:#666">=</span> <span style="color:#4070a0">&#39;张三&#39;</span></code></pre></div>
 		</div>
 		
 <div class="post__tags tags clearfix">
@@ -196,7 +272,7 @@ if (!doNotTrack) {
 		<a class="post-nav__link" href="/posts/opensource/logrus/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">Logrus</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/posts/golang/reflect_base/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Golang Reflect基础篇</p></a>
+		<a class="post-nav__link" href="/posts/language/go_reflect_base/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Golang Reflect基础篇</p></a>
 	</div>
 </nav>
 
@@ -238,11 +314,11 @@ if (!doNotTrack) {
 	<h4 class="widget__title">近期文章</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/golang/reflect_base/">Golang Reflect基础篇</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/book_reading/keyilianxi/">刻意练习</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/design/lru/">LRU 缓存设计</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/language/go_reflect_base/">Golang Reflect基础篇</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/db/mysql_explain/">MySQL EXPLAIN</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/opensource/logrus/">Logrus</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/interview/go/">Go</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/db/redis_data_struct/">Redis 数据结构 —— 字符串</a></li>
 		</ul>
 	</div>
 </div>
@@ -253,7 +329,9 @@ if (!doNotTrack) {
 			<li class="widget__item"><a class="widget__link" href="/categories/%e6%95%b0%e6%8d%ae%e5%ba%93">数据库</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/%e6%ba%90%e7%a0%81">源码</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/%e7%bd%91%e7%bb%9c">网络</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/%e8%ae%be%e8%ae%a1">设计</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/%e8%af%ad%e8%a8%80">语言</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/%e9%98%85%e8%af%bb">阅读</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/%e9%9a%8f%e7%ac%94">随笔</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/%e9%9d%a2%e8%af%95">面试</a></li>
 		</ul>
@@ -262,13 +340,15 @@ if (!doNotTrack) {
 <div class="widget-taglist widget">
 	<h4 class="widget__title">标签</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/go" title="Go">Go (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/golang" title="Golang">Golang (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/cache" title="Cache">Cache (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/design" title="Design">Design (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang" title="Golang">Golang (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/http" title="Http">Http (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/log" title="Log">Log (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mysql" title="Mysql">Mysql (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/reading" title="Reading">Reading (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/redis" title="Redis">Redis (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%e6%84%9f%e6%82%9f" title="感悟">感悟 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/thinking" title="Thinking">Thinking (1)</a>
 	</div>
 </div>
 <div class="widget-social widget">

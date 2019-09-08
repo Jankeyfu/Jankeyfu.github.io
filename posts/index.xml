@@ -6,17 +6,35 @@
     <description>Recent content in Posts on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 31 Aug 2019 14:30:33 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 08 Sep 2019 14:24:10 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>刻意练习</title>
+      <link>http://jankeyfu.github.io/posts/book_reading/keyilianxi/</link>
+      <pubDate>Sun, 08 Sep 2019 14:24:10 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/book_reading/keyilianxi/</guid>
+      <description>&lt;p&gt;最近公司部门总监弄了个书架，就去看了看，然后看中了这本《刻意练习》就借来看了看，感觉还不错就写个文章总结下里面的思想，希望对自己日后的学习工作有帮助。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>LRU 缓存设计</title>
+      <link>http://jankeyfu.github.io/posts/design/lru/</link>
+      <pubDate>Thu, 05 Sep 2019 10:23:56 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/design/lru/</guid>
+      <description> LRU的定义 LRU的实现  HashMap + DoubleLinkedList redis中LRU的实现  </description>
+    </item>
+    
+    <item>
       <title>Golang Reflect基础篇</title>
-      <link>http://jankeyfu.github.io/posts/golang/reflect_base/</link>
+      <link>http://jankeyfu.github.io/posts/language/go_reflect_base/</link>
       <pubDate>Sat, 31 Aug 2019 14:30:33 +0800</pubDate>
       
-      <guid>http://jankeyfu.github.io/posts/golang/reflect_base/</guid>
+      <guid>http://jankeyfu.github.io/posts/language/go_reflect_base/</guid>
       <description>&lt;p&gt;套用维基百科的解释来说，反射就是指计算机程序在运行时（Run time）可以访问、检测和修改它本身状态或行为的一种能力。用比喻来说，反射就是程序在运行的时候能够“观察”并且修改自己的行为。Go语言和很多语言一样，支持反射操作，接下来就一起学习下，反射在Go语言中是怎么使用的。&lt;/p&gt;</description>
     </item>
     
