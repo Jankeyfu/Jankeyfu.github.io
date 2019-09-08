@@ -8,7 +8,7 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 	<meta property="og:title" content="LRU 缓存设计" />
-<meta property="og:description" content=" LRU的定义 LRU的实现  HashMap &#43; DoubleLinkedList redis中LRU的实现  " />
+<meta property="og:description" content="LRU ( Least Recently Used ) ：见名知意，即最近最少使用，这是一种常见的缓存策略，当缓存数据超过缓存容量时，将最近最少使用的数据项从缓存中去除以便能够存储新的数据。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jankeyfu.github.io/posts/design/lru/" />
 <meta property="article:published_time" content="2019-09-05T10:23:56&#43;08:00"/>
@@ -84,17 +84,36 @@ if (!doNotTrack) {
 </div>
 </div>
 		</header><div class="content post__content clearfix">
-			
+			<p>LRU ( Least Recently Used ) ：见名知意，即最近最少使用，这是一种常见的缓存策略，当缓存数据超过缓存容量时，将最近最少使用的数据项从缓存中去除以便能够存储新的数据。</p>
 
-<h4 id="lru的定义">LRU的定义</h4>
+<p>对于缓存来说，最常见的两个 API 就是存储数据 <code>Put(key, val)</code> 到缓存中和从缓存中获取指定数据 <code>Get(key)</code>。缓存设计的目的是提升系统的速度，因此，缓存API的实现对时间性能要求很高，那我们要怎么用最小的时间复杂度实现上述两个 API 呢？</p>
 
-<h4 id="lru的实现">LRU的实现</h4>
+<p>对于 <code>Get</code> 而言，快速获取指定 key 对应的内容我们一般想到的实现方式就是 <code>HashTable</code>，通过指定的 key，我们能以 <code>O(1)</code> 的时间复杂度获取 key 对应的值。</p>
 
-<ul>
-<li>HashMap + DoubleLinkedList</li>
-<li>redis中LRU的实现</li>
-</ul>
+<p>但是 LRU 缓存更新策略是最近最少使用的方式，那我们要怎么知道哪个数据是最近最少使用的并且在需要对缓存更新的时候将其从缓存列表中删除？我们想到的方式可能是继续使用 <code>HashTable</code> 存储每个 key 最近一次访问的时间，但是这样的话搜寻最少使用的 key 的时间复杂度就为 <code>O(n)</code> 了， 显然这个时间效率并不高。要实现对数据删除的操作显然用数组也是不行的，在删除数据的时候存在数据的平移，耗时也很高。在我们学过的数据结构中，能够有序且删除数据的时候达到 <code>O(1)</code> 的性能的数据结构只有双向链表了。双向链表能够以 <code>O(1)</code> 的时间复杂度实现对链表数据的删除和增加（在我们知道链表的某个节点之后）。</p>
 
+<p>因此我们可以基于 <code>HashTable</code> 存储缓存的 Key + <code>Doubly Linked List</code> 双向链表存储数据值来实现读取和存储数据时间复杂度都为 <code>O(1)</code> 的 LRU缓存。接下来我们就通过下面的图片来看看是怎么实现的吧。</p>
+
+<p>设定一个容量为 5 的缓存列表，以下列命令为例，一步步来看我们的缓存是怎样的一个状态。</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Put<span style="color:#666">(</span><span style="color:#40a070">1</span>, <span style="color:#40a070">3</span><span style="color:#666">)</span>
+Put<span style="color:#666">(</span><span style="color:#40a070">2</span>, <span style="color:#40a070">2</span><span style="color:#666">)</span>
+Put<span style="color:#666">(</span><span style="color:#40a070">3</span>, <span style="color:#40a070">1</span><span style="color:#666">)</span>
+Put<span style="color:#666">(</span><span style="color:#40a070">4</span>, <span style="color:#40a070">4</span><span style="color:#666">)</span>
+Get<span style="color:#666">(</span><span style="color:#40a070">2</span><span style="color:#666">)</span>
+Put<span style="color:#666">(</span><span style="color:#40a070">5</span>, <span style="color:#40a070">5</span><span style="color:#666">)</span>
+Put<span style="color:#666">(</span><span style="color:#40a070">6</span>, <span style="color:#40a070">6</span><span style="color:#666">)</span>
+Get<span style="color:#666">(</span><span style="color:#40a070">3</span><span style="color:#666">)</span></code></pre></div>
+<p><img src="https://jankeyfu-blog.oss-cn-beijing.aliyuncs.com/LRU_Demo1.svg" alt="" /></p>
+
+<p>如上图所示，前四个命令是将1，2，3，4这四组数据分别通过头插法的方式插入到双向链表中，最近使用的key在双向链表的头部，次操作的执行时间为 <code>O(1)</code>；</p>
+
+<p>当通过 <code>Get(2)</code> 获取2对应的数据时，通过哈希表找到对应的链表节点，为了实现LRU这个缓存策略，每当数据被使用的时候，需要将次数据节点提到链表的表头，即通过变更双向链表的前驱和后驱指针，以 <code>O(1)</code> 的时间复杂度将节点 2 提到最前面；</p>
+
+<p>继续向链表中插入数据节点5，此时链表已经达到满容量状态；</p>
+
+<p>当向缓存链表中再存储数据节点6的时候，由于链表长度将超过容量，需要先将最近最少使用的节点，即节点1从链表中删除，然后再将节点6插入到链表的表头；</p>
+
+<p>上述操作即为将数据添加到缓存中和从缓存中读取数据的过程，通过 <code>HashTable</code> + <code>Doubly Linked List</code> 实现的LRU缓存策略，能够以 <code>O(1)</code> 的时间复杂度存储和读取数据，不过次方法是以牺牲空间来换取时间，不知道是否还有继续优化的空间，后续如果有更优的方式再来此修改。</p>
 		</div>
 		
 <div class="post__tags tags clearfix">
