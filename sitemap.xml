@@ -4,19 +4,42 @@
   
   <url>
     <loc>http://jankeyfu.github.io/categories/</loc>
-    <lastmod>2019-09-08T14:24:10+08:00</lastmod>
+    <lastmod>2019-09-14T12:29:17+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://jankeyfu.github.io/posts/</loc>
-    <lastmod>2019-09-08T14:24:10+08:00</lastmod>
+    <lastmod>2019-09-14T12:29:17+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://jankeyfu.github.io/tags/</loc>
-    <lastmod>2019-09-08T14:24:10+08:00</lastmod>
+    <lastmod>2019-09-14T12:29:17+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/tags/sort/</loc>
+    <lastmod>2019-09-14T12:29:17+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/posts/algorithm/sort/</loc>
+    <lastmod>2019-09-14T12:29:17+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/</loc>
+    <lastmod>2019-09-14T12:29:17+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2019-09-14T12:29:17+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -29,12 +52,6 @@
   <url>
     <loc>http://jankeyfu.github.io/posts/book_reading/keyilianxi/</loc>
     <lastmod>2019-09-08T14:24:10+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://jankeyfu.github.io/</loc>
-    <lastmod>2019-09-08T14:24:10+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
