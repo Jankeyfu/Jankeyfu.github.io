@@ -6,10 +6,37 @@
     <description>Recent content in Posts on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 14 Sep 2019 12:29:17 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 27 Oct 2019 14:43:13 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Prometheus &#43; Grafana 配置系统监控</title>
+      <link>http://jankeyfu.github.io/posts/architecture/grafana/</link>
+      <pubDate>Sun, 27 Oct 2019 14:43:13 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/architecture/grafana/</guid>
+      <description>&lt;p&gt;最近上线系统出了一些问题，但是上完线之后都没有发现，直到外围报出问题去定位才解决。因此想着是不是应该给系统加上监控和报警，以便能够在系统出现问题的第一时间去解决。于是去研究了一波&lt;code&gt;prometheus + grafana&lt;/code&gt;相关的资料。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>linux进阶命令</title>
+      <link>http://jankeyfu.github.io/posts/linux/cmd_advanced/</link>
+      <pubDate>Thu, 26 Sep 2019 17:51:19 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/linux/cmd_advanced/</guid>
+      <description> 文件查找命令 find find path -options -name file_name	#精确匹配 -iname file_name #不区分大小写精确匹配 </description>
+    </item>
+    
+    <item>
+      <title>linux基础命令</title>
+      <link>http://jankeyfu.github.io/posts/linux/cmd_base/</link>
+      <pubDate>Thu, 26 Sep 2019 17:30:41 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/linux/cmd_base/</guid>
+      <description> 文件目录命令 ls (list directory content) 列出当前目录下的文件和文件夹 ls	#只展示文件名 ls -l	#展示文件名即其他文件信息，包括权限，日期等 ls -a	#展示隐藏文件 cd (change directory)跳转到指定目录路径 cd dir_name # 跳转到指定的目录路径下 ~ # 跳转到用户目录下 .. # 跳转到上一级目录 . # 当前目录</description>
+    </item>
     
     <item>
       <title>排序算法集合</title>
