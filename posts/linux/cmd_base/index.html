@@ -8,7 +8,7 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 	<meta property="og:title" content="linux基础命令" />
-<meta property="og:description" content=" 文件目录命令 ls (list directory content) 列出当前目录下的文件和文件夹 ls	#只展示文件名 ls -l	#展示文件名即其他文件信息，包括权限，日期等 ls -a	#展示隐藏文件 cd (change directory)跳转到指定目录路径 cd dir_name # 跳转到指定的目录路径下 ~ # 跳转到用户目录下 .. # 跳转到上一级目录 . # 当前目录" />
+<meta property="og:description" content="对于刚接触到开发的同学，势必是需要了解一些基本的shell命令的，这些命令都是日常开发过程中使用很频繁的命令，以此作为笔记记录下来。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jankeyfu.github.io/posts/linux/cmd_base/" />
 <meta property="article:published_time" content="2019-09-26T17:30:41&#43;08:00"/>
@@ -84,7 +84,7 @@ if (!doNotTrack) {
 </div>
 </div>
 		</header><div class="content post__content clearfix">
-			
+			<p>对于刚接触到开发的同学，势必是需要了解一些基本的shell命令的，这些命令都是日常开发过程中使用很频繁的命令，以此作为笔记记录下来。</p>
 
 <h4 id="文件目录命令">文件目录命令</h4>
 
@@ -97,6 +97,49 @@ ls -a	<span style="color:#60a0b0;font-style:italic">#展示隐藏文件</span></
 ~ 			<span style="color:#60a0b0;font-style:italic"># 跳转到用户目录下</span>
 .. 			<span style="color:#60a0b0;font-style:italic"># 跳转到上一级目录</span>
 . 			<span style="color:#60a0b0;font-style:italic"># 当前目录</span></code></pre></div>
+<h5 id="cp-copy-files-复制文件">cp(copy files)复制文件</h5>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp <span style="color:#666">[</span>params<span style="color:#666">]</span> src_file desc_file
+-r <span style="color:#60a0b0;font-style:italic"># 递归复制文件夹中的文件</span>
+-i <span style="color:#60a0b0;font-style:italic"># 如果目标文件存在会提示是否覆盖</span>
+cp src_file desc_file dir <span style="color:#60a0b0;font-style:italic"># 将文件复制到一个文件夹中</span></code></pre></div>
+<h5 id="mv-move-files-移动文件">mv(move files) 移动文件</h5>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mv <span style="color:#666">[</span>params<span style="color:#666">]</span> src_file desc_file
+-f <span style="color:#60a0b0;font-style:italic"># 强制移动文件，不提示是否会覆盖目标文件</span>
+-i <span style="color:#60a0b0;font-style:italic"># 如果目标文件存在会提示是否覆盖</span>
+mv src_file desc_file dir <span style="color:#60a0b0;font-style:italic"># 将文件移动到一个文件夹中</span></code></pre></div>
+<h5 id="rm-remove-directory-entries-删除文件">rm(remove directory entries) 删除文件</h5>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rm <span style="color:#666">[</span>params<span style="color:#666">]</span> file
+-r <span style="color:#60a0b0;font-style:italic"># 递归移除目录中的文件</span>
+-f <span style="color:#60a0b0;font-style:italic"># 强制移除文件，不提示</span>
+-i <span style="color:#60a0b0;font-style:italic"># 提示是否移除目标文件</span></code></pre></div>
+<h4 id="内容查看命令">内容查看命令</h4>
+
+<h5 id="cat-concatenate-and-print-files-查看文件内容">cat(concatenate and print files) 查看文件内容</h5>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat <span style="color:#666">[</span>params<span style="color:#666">]</span> file
+-n <span style="color:#60a0b0;font-style:italic"># 输出行号信息</span>
+-e <span style="color:#60a0b0;font-style:italic"># 展示不可打印字符，并将换行符替换为$输出</span></code></pre></div>
+<h5 id="head-display-first-lines-of-a-file-展示文件前面内容">head(display first lines of a file) 展示文件前面内容</h5>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">head <span style="color:#666">[</span>params<span style="color:#666">]</span> file <span style="color:#60a0b0;font-style:italic"># 默认显示文件前十行内容</span>
+-n num <span style="color:#60a0b0;font-style:italic"># 显示前n行</span>
+-c num <span style="color:#60a0b0;font-style:italic"># 显示前n个byte</span></code></pre></div>
+<h5 id="tail-display-the-last-part-of-a-file-展示文件后面部分内容">tail(display the last part of a file) 展示文件后面部分内容</h5>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tail <span style="color:#666">[</span>params<span style="color:#666">]</span> file <span style="color:#60a0b0;font-style:italic"># 默认显示文件倒数十行内容</span>
+-n num	<span style="color:#60a0b0;font-style:italic"># 显示后n行</span>
+-c num	<span style="color:#60a0b0;font-style:italic"># 显示后n个byte</span>
+-f		<span style="color:#60a0b0;font-style:italic"># 动态监听文件内容变化并将内容输出到控制台</span>
+-r		<span style="color:#60a0b0;font-style:italic"># 文件内容倒序输出内容</span></code></pre></div>
+<h5 id="more-less-以翻页的方式展示内容">more|less 以翻页的方式展示内容</h5>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">more <span style="color:#666">[</span>params<span style="color:#666">]</span> file
+-n num <span style="color:#60a0b0;font-style:italic"># 每页显示n行</span>
++num   <span style="color:#60a0b0;font-style:italic"># 从第n行展示</span>
+
+<span style="color:#60a0b0;font-style:italic"># 在此模式下的命令</span>
+<span style="color:#60a0b0;font-style:italic"># Enter	向下翻页</span>
+<span style="color:#60a0b0;font-style:italic"># 空格键	向下翻页</span>
+<span style="color:#60a0b0;font-style:italic"># F		向下翻页</span>
+<span style="color:#60a0b0;font-style:italic"># B		向上翻页</span>
+<span style="color:#60a0b0;font-style:italic"># =		显示当前行号信息</span>
+<span style="color:#60a0b0;font-style:italic"># q		退出</span></code></pre></div>
 		</div>
 		
 <div class="post__tags tags clearfix">
