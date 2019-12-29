@@ -11,8 +11,8 @@
 <meta property="og:description" content="最近上线系统出了一些问题，但是上完线之后都没有发现，直到外围报出问题去定位才解决。因此想着是不是应该给系统加上监控和报警，以便能够在系统出现问题的第一时间去解决。于是去研究了一波prometheus &#43; grafana相关的资料。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jankeyfu.github.io/posts/architecture/grafana/" />
-<meta property="article:published_time" content="2019-10-27T14:43:13&#43;08:00"/>
-<meta property="article:modified_time" content="2019-10-27T14:43:13&#43;08:00"/>
+<meta property="article:published_time" content="2019-10-27T14:43:13+08:00" />
+<meta property="article:modified_time" content="2019-10-27T14:43:13+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -107,12 +107,13 @@ if (!doNotTrack) {
 
 <li><p><code>=~</code> 正则匹配查询值</p></li>
 
-<li><p><code>!~</code> 正则不匹配查询值</p></li>
-</ul>
+<li><p><code>!~</code> 正则不匹配查询值</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prometheus" data-lang="prometheus">http_requests_total{method = &#34;POST&#34;}
 http_requests_total{method != &#34;POST&#34;}
 http_requests_total{method =~ &#34;post | POST&#34; }
-http_requests_total{method !~ &#34;post | POST&#34; }</code></pre></div>
+http_requests_total{method !~ &#34;post | POST&#34; }</code></pre></div></li>
+</ul>
+
 <h4 id="examples">Examples</h4>
 
 <p>prometheus 还有很多其他内置的函数如 <code>abs</code> , <code>min</code> , <code>max</code> , <code>sum</code> 等等数学函数，具体使用可以翻看<a href="https://prometheus.io/docs/prometheus/latest/querying/functions/">手册</a>，接下来介绍一些使用的数据打点以及查询的案例。以后有遇到其他的基础查询SQL，再不断补充。</p>
@@ -183,6 +184,9 @@ sum <span style="color:#666">(</span>memory_working_set_bytes<span style="color:
 	<div class="post-nav__item post-nav__item--prev">
 		<a class="post-nav__link" href="/posts/linux/cmd_advanced/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">linux进阶命令</p></a>
 	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/posts/opensource/syncpool/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Sync.Pool 对象重用利器</p></a>
+	</div>
 </nav>
 
 <section class="comments">
@@ -223,11 +227,11 @@ sum <span style="color:#666">(</span>memory_working_set_bytes<span style="color:
 	<h4 class="widget__title">近期文章</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/opensource/syncpool/">Sync.Pool 对象重用利器</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/architecture/grafana/">Prometheus &#43; Grafana 配置系统监控</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/linux/cmd_advanced/">linux进阶命令</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/linux/cmd_base/">linux基础命令</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/algorithm/sort/">排序算法集合</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/book_reading/keyilianxi/">刻意练习</a></li>
 		</ul>
 	</div>
 </div>
@@ -254,7 +258,7 @@ sum <span style="color:#666">(</span>memory_working_set_bytes<span style="color:
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/cache" title="Cache">Cache (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/design" title="Design">Design (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/golang" title="Golang">Golang (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang" title="Golang">Golang (4)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/http" title="Http">Http (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/log" title="Log">Log (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/monitor" title="Monitor">Monitor (1)</a>

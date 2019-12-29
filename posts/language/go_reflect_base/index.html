@@ -11,8 +11,8 @@
 <meta property="og:description" content="套用维基百科的解释来说，反射就是指计算机程序在运行时（Run time）可以访问、检测和修改它本身状态或行为的一种能力。用比喻来说，反射就是程序在运行的时候能够“观察”并且修改自己的行为。Go语言和很多语言一样，支持反射操作，接下来就一起学习下，反射在Go语言中是怎么使用的。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jankeyfu.github.io/posts/language/go_reflect_base/" />
-<meta property="article:published_time" content="2019-08-31T14:30:33&#43;08:00"/>
-<meta property="article:modified_time" content="2019-08-31T14:30:33&#43;08:00"/>
+<meta property="article:published_time" content="2019-08-31T14:30:33+08:00" />
+<meta property="article:modified_time" content="2019-08-31T14:30:33+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -142,8 +142,8 @@ if (!doNotTrack) {
 <li><strong>NumField() int</strong> : 获取结构变量字段数量，如结构体 D 有两个字段 I 和 S</li>
 <li><strong>Field(i int) StructField</strong> : 通过索引获取结构体变量的字段，其返回值是<code>reflect.StructField</code>类型的变量。</li>
 <li><strong>FieldByName(name string) (StructField, bool)</strong>: 通过名称获取结构体变量，如果对应名称的字段变量不存在，则返回false。</li>
-<li><strong>FieldByNameFunc(match func(string) bool) (StructField, bool)</strong>：通过一个匹配方法来获取匹配的结构体字段变量，需要自定义 <code>match</code> 方法</li>
-</ul>
+
+<li><p><strong>FieldByNameFunc(match func(string) bool) (StructField, bool)</strong>：通过一个匹配方法来获取匹配的结构体字段变量，需要自定义 <code>match</code> 方法</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> D <span style="color:#007020;font-weight:bold">struct</span> {
 	I <span style="color:#902000">int</span>
 	S <span style="color:#902000">string</span>
@@ -163,10 +163,9 @@ if (!doNotTrack) {
 <span style="color:#60a0b0;font-style:italic">// output
 </span><span style="color:#60a0b0;font-style:italic">// field_number:2 1st_field:I 2nd_field:S
 </span><span style="color:#60a0b0;font-style:italic">// field_i:I
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> field_s:S</code></pre></div>
-<ul>
-<li>对于上述提到的<code>StructField</code>结构体定义如下，有字段名<code>Name</code> 结构体所属的 package路径，以及字段的具体类型Type（reflect.Type)，Tag 结构体tag标记</li>
-</ul>
+</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> field_s:S</code></pre></div></li>
+
+<li><p>对于上述提到的<code>StructField</code>结构体定义如下，有字段名<code>Name</code> 结构体所属的 package路径，以及字段的具体类型Type（reflect.Type)，Tag 结构体tag标记</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> StructField <span style="color:#007020;font-weight:bold">struct</span> {
 	Name      <span style="color:#902000">string</span>
 	PkgPath   <span style="color:#902000">string</span>
@@ -175,7 +174,9 @@ if (!doNotTrack) {
 </span><span style="color:#60a0b0;font-style:italic"></span>	Offset    <span style="color:#902000">uintptr</span>   <span style="color:#60a0b0;font-style:italic">// offset within struct, in bytes
 </span><span style="color:#60a0b0;font-style:italic"></span>	Index     []<span style="color:#902000">int</span>     <span style="color:#60a0b0;font-style:italic">// index sequence for Type.FieldByIndex
 </span><span style="color:#60a0b0;font-style:italic"></span>	Anonymous <span style="color:#902000">bool</span>      <span style="color:#60a0b0;font-style:italic">// is an embedded field
-</span><span style="color:#60a0b0;font-style:italic"></span>}</code></pre></div>
+</span><span style="color:#60a0b0;font-style:italic"></span>}</code></pre></div></li>
+</ul>
+
 <p><strong>3. 方法反射</strong>：通过类型反射，获取方法参数的类型和方法返回值的类型</p>
 
 <ul>
@@ -185,8 +186,8 @@ if (!doNotTrack) {
 <li><strong>Out(i int) Type</strong> :返回第i个返回值的反射类型</li>
 <li><strong>NumMethod() int</strong> : 返回struct的方法数量</li>
 <li><strong>Method(int) Method</strong> : 通过索引获取反射Method类型对象</li>
-<li><strong>MethodByName(string) (Method, bool)</strong> : 通过方法名称获取反射Method类型对象</li>
-</ul>
+
+<li><p><strong>MethodByName(string) (Method, bool)</strong> : 通过方法名称获取反射Method类型对象</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">TpDemo3</span>() {
 	ft <span style="color:#666">:=</span> reflect.<span style="color:#06287e">TypeOf</span>(Add)
 	fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;func_param_num:%d 1st_param:%s 2nd_param:%s\n&#34;</span>, ft.<span style="color:#06287e">NumIn</span>(), ft.<span style="color:#06287e">In</span>(<span style="color:#40a070">0</span>), ft.<span style="color:#06287e">In</span>(<span style="color:#40a070">1</span>))
@@ -198,15 +199,17 @@ if (!doNotTrack) {
 <span style="color:#60a0b0;font-style:italic">// output
 </span><span style="color:#60a0b0;font-style:italic">// func_param_num:2 1st_param:int 2nd_param:int
 </span><span style="color:#60a0b0;font-style:italic">// func_return_num:1 1st_return:int
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> <span style="color:#007020;font-weight:bold">struct</span> method_num:<span style="color:#40a070">1</span> method_name_by_id:Print method_name_by_name:Print</code></pre></div>
+</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> <span style="color:#007020;font-weight:bold">struct</span> method_num:<span style="color:#40a070">1</span> method_name_by_id:Print method_name_by_name:Print</code></pre></div></li>
+</ul>
+
 <p><strong>4. 其他类型</strong>：其他数据类型如slice，array，map，ptr 的类型反射</p>
 
 <ul>
 <li><strong>Elem()</strong> : 复合类型Array, Chan, Map, Ptr, or Slice 的类型反射，其余类型会 panic，当是指针的反射类型对象是，其返回的是指针所指向的对象类型，当反射类型是上述类型是非指针类型时，返回的是其中元素的类型。如slice 结果是 int， 因为 slice 元素的数据类型是 int 类型的，而 &amp;slice 的结果是 []int ，因为其实指针指向的是 []int 类型的的变量。</li>
 <li><strong>Key()</strong> : 返回map类型的反射类型的key对应的类型，其余数据类型类型panic</li>
 <li><strong>Len()</strong> : 返回数组的长度，其余数据类型painc</li>
-<li><strong>Kint()</strong> : 返回反射的具体类型，主要是基础数据类型int, uint8, int32 int64, float32, float64 等及复合类型 slice,   array, map, chan, struct, func</li>
-</ul>
+
+<li><p><strong>Kint()</strong> : 返回反射的具体类型，主要是基础数据类型int, uint8, int32 int64, float32, float64 等及复合类型 slice,   array, map, chan, struct, func</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">TpDemo4</span>() {
 	slice <span style="color:#666">:=</span> []<span style="color:#902000">int</span>{<span style="color:#40a070">1</span>, <span style="color:#40a070">2</span>, <span style="color:#40a070">3</span>, <span style="color:#40a070">4</span>, <span style="color:#40a070">5</span>}
 	arr <span style="color:#666">:=</span> [<span style="color:#40a070">3</span>]<span style="color:#902000">string</span>{<span style="color:#4070a0">&#34;A&#34;</span>, <span style="color:#4070a0">&#34;B&#34;</span>, <span style="color:#4070a0">&#34;C&#34;</span>}
@@ -230,7 +233,9 @@ if (!doNotTrack) {
 </span><span style="color:#60a0b0;font-style:italic">// slice:int map:string chan:float64 ptr:[]int arr:string
 </span><span style="color:#60a0b0;font-style:italic">// map_key: string
 </span><span style="color:#60a0b0;font-style:italic">// arr_len: 3
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> slice:slice <span style="color:#007020;font-weight:bold">map</span>:<span style="color:#007020;font-weight:bold">map</span> <span style="color:#007020;font-weight:bold">chan</span>:<span style="color:#007020;font-weight:bold">chan</span> ptr:ptr arr:array <span style="color:#007020;font-weight:bold">struct</span>:<span style="color:#007020;font-weight:bold">struct</span> <span style="color:#007020;font-weight:bold">func</span>:<span style="color:#007020;font-weight:bold">func</span> <span style="color:#902000">int</span>:<span style="color:#902000">int</span></code></pre></div>
+</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> slice:slice <span style="color:#007020;font-weight:bold">map</span>:<span style="color:#007020;font-weight:bold">map</span> <span style="color:#007020;font-weight:bold">chan</span>:<span style="color:#007020;font-weight:bold">chan</span> ptr:ptr arr:array <span style="color:#007020;font-weight:bold">struct</span>:<span style="color:#007020;font-weight:bold">struct</span> <span style="color:#007020;font-weight:bold">func</span>:<span style="color:#007020;font-weight:bold">func</span> <span style="color:#902000">int</span>:<span style="color:#902000">int</span></code></pre></div></li>
+</ul>
+
 <h5 id="value">Value</h5>
 
 <p>Go语言中的 Type 的反射主要用来判断变量类型，而 Value 反射则可以获取变量值，以及更改变量值。</p>
@@ -247,8 +252,8 @@ if (!doNotTrack) {
 <li><strong>Slice3(i, j, k int) Value</strong> : 类似于 <code>slice[i : j : k]</code> , i 起始下标，j 终止下标，k 表示slice的容量大小。</li>
 <li><strong>Bytes() []byte</strong> : 返回 byte 切片，只支持底层数据类型为 <code>[]byte</code></li>
 <li><strong>Len() int</strong> : 返回slice 的长度</li>
-<li><strong>Cap() int</strong> : 返回 slice 的容量</li>
-</ul>
+
+<li><p><strong>Cap() int</strong> : 返回 slice 的容量</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">VDemo</span>() {
 	i <span style="color:#666">:=</span> <span style="color:#40a070">10</span>
 	s <span style="color:#666">:=</span> <span style="color:#4070a0">&#34;s&#34;</span>
@@ -262,14 +267,16 @@ if (!doNotTrack) {
 	fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;i:%d s:%s f:%.2f slice:%v bool:%v\n&#34;</span>, iv.<span style="color:#06287e">Int</span>(), sv.<span style="color:#06287e">String</span>(), fv.<span style="color:#06287e">Float</span>(), slicev.<span style="color:#06287e">Slice</span>(<span style="color:#40a070">0</span>, slicev.<span style="color:#06287e">Len</span>()), bv.<span style="color:#06287e">Bool</span>())
 }
 <span style="color:#60a0b0;font-style:italic">// output 
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> i:<span style="color:#40a070">10</span> s:s f:<span style="color:#40a070">10.20</span> slice:[<span style="color:#40a070">1</span> <span style="color:#40a070">2</span> <span style="color:#40a070">3</span> <span style="color:#40a070">4</span> <span style="color:#40a070">5</span>] <span style="color:#902000">bool</span>:<span style="color:#007020;font-weight:bold">true</span> </code></pre></div>
+</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> i:<span style="color:#40a070">10</span> s:s f:<span style="color:#40a070">10.20</span> slice:[<span style="color:#40a070">1</span> <span style="color:#40a070">2</span> <span style="color:#40a070">3</span> <span style="color:#40a070">4</span> <span style="color:#40a070">5</span>] <span style="color:#902000">bool</span>:<span style="color:#007020;font-weight:bold">true</span> </code></pre></div></li>
+</ul>
+
 <p><strong>3. 变量类型map</strong>：由于map的比较复杂，就单独提出来讲解了。</p>
 
 <ul>
 <li><strong>MapKeys() []Value</strong> : 返回 map 的键列表</li>
 <li><strong>MapIndex(key Value) Value</strong> : 根据 map 的键获取值</li>
-<li><strong>MapRange() *MapIter</strong> : 获取 map 的迭代器，通过 <code>Next()</code> 方法遍历获取 map 的 k_v entry</li>
-</ul>
+
+<li><p><strong>MapRange() *MapIter</strong> : 获取 map 的迭代器，通过 <code>Next()</code> 方法遍历获取 map 的 k_v entry</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">VDemo2</span>() {
 	mp <span style="color:#666">:=</span> <span style="color:#007020;font-weight:bold">map</span>[<span style="color:#902000">string</span>]<span style="color:#902000">string</span>{<span style="color:#4070a0">&#34;A&#34;</span>: <span style="color:#4070a0">&#34;a&#34;</span>, <span style="color:#4070a0">&#34;B&#34;</span>: <span style="color:#4070a0">&#34;b&#34;</span>, <span style="color:#4070a0">&#34;C&#34;</span>: <span style="color:#4070a0">&#34;c&#34;</span>}
 	mpv <span style="color:#666">:=</span> reflect.<span style="color:#06287e">ValueOf</span>(mp)
@@ -285,7 +292,9 @@ if (!doNotTrack) {
 <span style="color:#60a0b0;font-style:italic">// output
 </span><span style="color:#60a0b0;font-style:italic">// [A B C]
 </span><span style="color:#60a0b0;font-style:italic">// A:a B:b C:c 
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> A:a B:b C:c </code></pre></div>
+</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> A:a B:b C:c </code></pre></div></li>
+</ul>
+
 <p><strong>4. 地址相关</strong>：</p>
 
 <ul>
@@ -297,8 +306,7 @@ if (!doNotTrack) {
 
 <li><p><strong>CanInterface() bool</strong> : 是否可以调用 <code>Interface()</code> 方法，只有不可导出的字段变量返回false</p></li>
 
-<li><p><strong>Interface() (i interface{})</strong> : 将底层数据转换为 <code>interface{}</code> 类型的变量，结构体中的不可导出变量会panic</p></li>
-</ul>
+<li><p><strong>Interface() (i interface{})</strong> : 将底层数据转换为 <code>interface{}</code> 类型的变量，结构体中的不可导出变量会panic</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">VDemo3</span>() {
 	i <span style="color:#666">:=</span> <span style="color:#40a070">10</span>
 	iv <span style="color:#666">:=</span> reflect.<span style="color:#06287e">ValueOf</span>(i)
@@ -313,7 +321,9 @@ if (!doNotTrack) {
 <span style="color:#60a0b0;font-style:italic">// output
 </span><span style="color:#60a0b0;font-style:italic">// addr slice:false int:false struct:false ptr:false  func:false
 </span><span style="color:#60a0b0;font-style:italic">// addr ptr_elem:true addr:0xc000016098
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> unexpored_field:<span style="color:#007020;font-weight:bold">false</span> other:<span style="color:#007020;font-weight:bold">true</span></code></pre></div>
+</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> unexpored_field:<span style="color:#007020;font-weight:bold">false</span> other:<span style="color:#007020;font-weight:bold">true</span></code></pre></div></li>
+</ul>
+
 <p><strong>变量赋值</strong>：主要用来设置哪些可以取地址的变量的内容</p>
 
 <ul>
@@ -326,21 +336,23 @@ if (!doNotTrack) {
 <li><strong>SetLen(n int)</strong></li>
 <li><strong>SetCap(n int)</strong></li>
 <li><strong>SetString(x string)</strong></li>
-<li><strong>SetMapIndex(key, val Value)</strong></li>
-</ul>
+
+<li><p><strong>SetMapIndex(key, val Value)</strong></p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">VDemo4</span>() {
 	dv <span style="color:#666">:=</span> reflect.<span style="color:#06287e">ValueOf</span>(<span style="color:#666">&amp;</span>D{I: <span style="color:#40a070">10</span>})
 	dv.<span style="color:#06287e">Elem</span>().<span style="color:#06287e">FieldByName</span>(<span style="color:#4070a0">&#34;I&#34;</span>).<span style="color:#06287e">SetInt</span>(<span style="color:#40a070">11</span>)
 	fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;%+v\n&#34;</span>, dv)
 }
 <span style="color:#60a0b0;font-style:italic">// output
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">&amp;</span>{I:<span style="color:#40a070">11</span> S: u:}</code></pre></div>
+</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">&amp;</span>{I:<span style="color:#40a070">11</span> S: u:}</code></pre></div></li>
+</ul>
+
 <p><strong>方法调用</strong>：</p>
 
 <ul>
 <li><strong>Call(in []Value) []Value</strong> : 反射方法的调用，方法的参数分别是 in[0], in[1] &hellip;</li>
-<li><strong>CallSlice(in []Value) []Value</strong> : 首先原方法必须是可变参数方法，可变参数对应 in数组中的最后一个元素，最后一个元素必须是与原方法定义参数类型相同的slice 。</li>
-</ul>
+
+<li><p><strong>CallSlice(in []Value) []Value</strong> : 首先原方法必须是可变参数方法，可变参数对应 in数组中的最后一个元素，最后一个元素必须是与原方法定义参数类型相同的slice 。</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">VDemo5</span>() {
 	fv <span style="color:#666">:=</span> reflect.<span style="color:#06287e">ValueOf</span>(Add)
 	fvs <span style="color:#666">:=</span> reflect.<span style="color:#06287e">ValueOf</span>(Print)
@@ -361,7 +373,9 @@ if (!doNotTrack) {
 <span style="color:#60a0b0;font-style:italic">// output
 </span><span style="color:#60a0b0;font-style:italic">// 21
 </span><span style="color:#60a0b0;font-style:italic">// [1 2 3]
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> i:<span style="color:#40a070">10</span> s:s u:u</code></pre></div>
+</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> i:<span style="color:#40a070">10</span> s:s u:u</code></pre></div></li>
+</ul>
+
 <p><strong>Type Value通用API</strong> : 这些API在Type 和 Value 中的用法一致，唯一的不同是返回值的类型一个是 Type 一个 Value</p>
 
 <ul>
@@ -445,11 +459,11 @@ if (!doNotTrack) {
 	<h4 class="widget__title">近期文章</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/opensource/syncpool/">Sync.Pool 对象重用利器</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/architecture/grafana/">Prometheus &#43; Grafana 配置系统监控</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/linux/cmd_advanced/">linux进阶命令</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/linux/cmd_base/">linux基础命令</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/algorithm/sort/">排序算法集合</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/book_reading/keyilianxi/">刻意练习</a></li>
 		</ul>
 	</div>
 </div>
@@ -476,7 +490,7 @@ if (!doNotTrack) {
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/cache" title="Cache">Cache (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/design" title="Design">Design (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/golang" title="Golang">Golang (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang" title="Golang">Golang (4)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/http" title="Http">Http (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/log" title="Log">Log (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/monitor" title="Monitor">Monitor (1)</a>
