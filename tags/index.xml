@@ -6,7 +6,7 @@
     <description>Recent content in Tags on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 29 Dec 2019 16:04:06 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Jan 2020 17:25:40 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -17,6 +17,15 @@
       <pubDate>Sun, 29 Dec 2019 16:04:06 +0800</pubDate>
       
       <guid>http://jankeyfu.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>src</title>
+      <link>http://jankeyfu.github.io/tags/src/</link>
+      <pubDate>Sun, 29 Dec 2019 16:04:06 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/tags/src/</guid>
       <description></description>
     </item>
     
