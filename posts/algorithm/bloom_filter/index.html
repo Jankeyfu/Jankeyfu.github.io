@@ -138,43 +138,20 @@ if (!doNotTrack) {
 	</div>
 </nav>
 <div id="git-comments"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 <script>
-    var gitment = new Gitment({
-        
-        owner: 'jankeyfu',
+    const gitalk = new Gitalk({
+        clientID: '828d851e2cca8472fff7',
+        clientSecret: '8010aa440c2565f5fd290194be72ed211584a952',
         repo: 'jankeyfu.github.io',
-        oauth: {
-            client_id: '828d851e2cca8472fff7',
-            client_secret: '8010aa440c2565f5fd290194be72ed211584a952',
-        }
+        owner: 'jankeyfu',
+        admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],
+        id: location.pathname,      
+        distractionFreeMode: false  
     })
-    gitment.render('git-comments')
+    gitalk.render('git-comments')
 </script>
-
-<section class="comments">
-	<div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "blog-tayaemm0rn" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</section>
 
 
 			</div>
