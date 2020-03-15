@@ -6,10 +6,19 @@
     <description>Recent content in Categories on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 15 Mar 2020 12:00:05 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 15 Mar 2020 14:46:09 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>linux</title>
+      <link>http://jankeyfu.github.io/categories/linux/</link>
+      <pubDate>Sun, 15 Mar 2020 14:46:09 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>语言</title>
@@ -44,15 +53,6 @@
       <pubDate>Sun, 27 Oct 2019 14:43:13 +0800</pubDate>
       
       <guid>http://jankeyfu.github.io/categories/%E6%9E%B6%E6%9E%84/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>http://jankeyfu.github.io/categories/linux/</link>
-      <pubDate>Thu, 26 Sep 2019 17:51:19 +0800</pubDate>
-      
-      <guid>http://jankeyfu.github.io/categories/linux/</guid>
       <description></description>
     </item>
     
