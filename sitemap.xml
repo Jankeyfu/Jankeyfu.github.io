@@ -43,17 +43,12 @@
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/language/go_context/</loc>
+    <loc>http://jankeyfu.github.io/posts/golang/context/</loc>
     <lastmod>2020-03-15T12:00:05+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/tags/golang/</loc>
-    <lastmod>2020-03-15T12:00:05+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://jankeyfu.github.io/categories/%E8%AF%AD%E8%A8%80/</loc>
+    <loc>http://jankeyfu.github.io/categories/golang/</loc>
     <lastmod>2020-03-15T12:00:05+08:00</lastmod>
   </url>
   
@@ -63,7 +58,7 @@
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/language/go_channel/</loc>
+    <loc>http://jankeyfu.github.io/posts/golang/channel/</loc>
     <lastmod>2020-03-14T15:43:06+08:00</lastmod>
   </url>
   
@@ -78,17 +73,12 @@
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/tags/src/</loc>
+    <loc>http://jankeyfu.github.io/tags/sync/</loc>
     <lastmod>2019-12-29T16:04:06+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/opensource/syncpool/</loc>
-    <lastmod>2019-12-29T16:04:06+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://jankeyfu.github.io/categories/%E6%BA%90%E7%A0%81/</loc>
+    <loc>http://jankeyfu.github.io/posts/golang/syncpool/</loc>
     <lastmod>2019-12-29T16:04:06+08:00</lastmod>
   </url>
   
@@ -98,12 +88,12 @@
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/architecture/grafana/</loc>
+    <loc>http://jankeyfu.github.io/posts/design/grafana/</loc>
     <lastmod>2019-10-27T14:43:13+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/categories/%E6%9E%B6%E6%9E%84/</loc>
+    <loc>http://jankeyfu.github.io/categories/%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2019-10-27T14:43:13+08:00</lastmod>
   </url>
   
@@ -158,12 +148,12 @@
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/categories/%E8%AE%BE%E8%AE%A1/</loc>
-    <lastmod>2019-09-05T10:23:56+08:00</lastmod>
+    <loc>http://jankeyfu.github.io/posts/golang/reflect_base/</loc>
+    <lastmod>2019-08-31T14:30:33+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/language/go_reflect_base/</loc>
+    <loc>http://jankeyfu.github.io/tags/reflect/</loc>
     <lastmod>2019-08-31T14:30:33+08:00</lastmod>
   </url>
   
@@ -188,17 +178,12 @@
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/opensource/logrus/</loc>
+    <loc>http://jankeyfu.github.io/posts/golang/logrus/</loc>
     <lastmod>2019-08-23T18:03:32+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/interview/go/</loc>
-    <lastmod>2019-08-18T22:17:58+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://jankeyfu.github.io/categories/%E9%9D%A2%E8%AF%95/</loc>
+    <loc>http://jankeyfu.github.io/posts/golang/interview/</loc>
     <lastmod>2019-08-18T22:17:58+08:00</lastmod>
   </url>
   

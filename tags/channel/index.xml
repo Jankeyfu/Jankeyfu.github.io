@@ -13,10 +13,10 @@
     
     <item>
       <title>Go Channel</title>
-      <link>http://jankeyfu.github.io/posts/language/go_channel/</link>
+      <link>http://jankeyfu.github.io/posts/golang/channel/</link>
       <pubDate>Sat, 14 Mar 2020 15:43:06 +0800</pubDate>
       
-      <guid>http://jankeyfu.github.io/posts/language/go_channel/</guid>
+      <guid>http://jankeyfu.github.io/posts/golang/channel/</guid>
       <description>&lt;p&gt;channel 是Go语言中很重要的一种数据结构，他主要用于多个协程之间进行通信。其设计是同步的，在使用的时候并不需要加锁，由于channel的存在，大大降低了go 并发编写的难度。&lt;/p&gt;</description>
     </item>
     

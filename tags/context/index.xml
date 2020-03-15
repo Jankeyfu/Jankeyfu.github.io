@@ -13,10 +13,10 @@
     
     <item>
       <title>Go Context</title>
-      <link>http://jankeyfu.github.io/posts/language/go_context/</link>
+      <link>http://jankeyfu.github.io/posts/golang/context/</link>
       <pubDate>Sun, 15 Mar 2020 12:00:05 +0800</pubDate>
       
-      <guid>http://jankeyfu.github.io/posts/language/go_context/</guid>
+      <guid>http://jankeyfu.github.io/posts/golang/context/</guid>
       <description>&lt;p&gt;Context 也称为上下文，主要用于并发中对多个 goroutine 的控制，也可作为全局数据进行传递的载体，按照golang 的编程实践，一般用作函数的第一个参数。&lt;/p&gt;</description>
     </item>
     
