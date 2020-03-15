@@ -4,20 +4,20 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>src - 温故知新以为师</title>
+	<title>context - 温故知新以为师</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="src" />
+	<meta property="og:title" content="context" />
 <meta property="og:description" content="Recode something" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="http://jankeyfu.github.io/tags/src/" />
+<meta property="og:url" content="http://jankeyfu.github.io/tags/context/" />
 
-<meta property="og:updated_time" content="2019-12-29T16:04:06+08:00" />
+<meta property="og:updated_time" content="2020-03-15T12:00:05+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
-	<link rel="alternate" type="application/rss+xml" href="/tags/src/index.xml" title="温故知新以为师">
+	<link rel="alternate" type="application/rss+xml" href="/tags/context/index.xml" title="温故知新以为师">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
 	<link rel="stylesheet" href="/css/style.css">
 	
@@ -71,33 +71,31 @@ if (!doNotTrack) {
 			
 <main class="main list" role="main">
 	<header class="main__header">
-		<h1 class="main__title">src</h1>
+		<h1 class="main__title">context</h1>
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h3 class="list__title post__title ">
-			<a href="/posts/opensource/syncpool/" rel="bookmark">
-			Sync.Pool 对象重用利器
+			<a href="/posts/language/go_context/" rel="bookmark">
+			Go Context
 			</a>
 		</h3>
 		<div class="list__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-12-29T16:04:06&#43;08:00">December 29, 2019</time>
+	<time class="meta__text" datetime="2020-03-15T12:00:05&#43;08:00">March 15, 2020</time>
 </div>
 
 <div class="meta__item-categories meta__item">
 	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
-	<span class="meta__text"><a class="meta__link" href="/categories/%E6%BA%90%E7%A0%81/" rel="category">源码</a>
+	<span class="meta__text"><a class="meta__link" href="/categories/%E8%AF%AD%E8%A8%80/" rel="category">语言</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>最近在看 zap 相关的源码，里面用到了很多的 sync.Pool 来优化内存使用，于是花了点时间研究了下。</p>
-
-<p><code>sync.Pool</code> 是一组可以单独保存和检索的<strong>临时对象</strong>，之所以称其保存的是临时对象是因为在下一次 GC 的时候，池中对象会被清理，且被清理时不会得到任何通知，因此池中不适合存放数据库连接等持久对象。<code>sync.Pool</code>的主要用途是存储已分配内存但却不再使用的对象，以供后续重用此对象，减少内存分配产生的碎片垃圾回收，提升性能。</p>
+		<p>Context 也称为上下文，主要用于并发中对多个 goroutine 的控制，也可作为全局数据进行传递的载体，按照golang 的编程实践，一般用作函数的第一个参数。</p>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/opensource/syncpool/">阅读全文…</a>
+		<a class="list__footer-readmore btn" href="/posts/language/go_context/">阅读全文…</a>
 	</div>
 </article>
 </main>
