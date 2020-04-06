@@ -75,7 +75,7 @@ if (!doNotTrack) {
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-08-11T15:58:49&#43;08:00">August 11, 2019</time>
+	<time class="meta__text" datetime="2019-08-11T15:58:49&#43;08:00">2019-08-11</time>
 </div>
 
 <div class="meta__item-categories meta__item">
@@ -83,7 +83,30 @@ if (!doNotTrack) {
 	<span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
 	</span>
 </div></div>
-		</header><div class="content post__content clearfix">
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">目录</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#字符串">字符串</a>
+<ul>
+<li><a href="#redis字符串操作命令">Redis字符串操作命令</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
 			<p>redis 是一个基于C语言设计的开源的高性能的内存型数据结构存储系统，它可以用作数据库、缓存和消息中间件等。它支持以下五种数据格式： 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）和有序集合（sorted sets）。今天就从源码的角度分析一下这五种数据格式是怎么实现的。</p>
 
 <h4 id="字符串">字符串</h4>

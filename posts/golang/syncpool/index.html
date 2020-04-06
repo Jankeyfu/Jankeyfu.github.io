@@ -77,7 +77,7 @@ if (!doNotTrack) {
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-12-29T16:04:06&#43;08:00">December 29, 2019</time>
+	<time class="meta__text" datetime="2019-12-29T16:04:06&#43;08:00">2019-12-29</time>
 </div>
 
 <div class="meta__item-categories meta__item">
@@ -85,7 +85,31 @@ if (!doNotTrack) {
 	<span class="meta__text"><a class="meta__link" href="/categories/golang/" rel="category">golang</a>
 	</span>
 </div></div>
-		</header><div class="content post__content clearfix">
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">目录</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#用法">用法</a></li>
+<li><a href="#结构体分析">结构体分析</a></li>
+<li><a href="#获取对象">获取对象</a></li>
+<li><a href="#缓存对象">缓存对象</a></li>
+<li><a href="#引用">引用</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
 			<p>最近在看 zap 相关的源码，里面用到了很多的 sync.Pool 来优化内存使用，于是花了点时间研究了下。</p>
 
 <p><code>sync.Pool</code> 是一组可以单独保存和检索的<strong>临时对象</strong>，之所以称其保存的是临时对象是因为在下一次 GC 的时候，池中对象会被清理，且被清理时不会得到任何通知，因此池中不适合存放数据库连接等持久对象。<code>sync.Pool</code>的主要用途是存储已分配内存但却不再使用的对象，以供后续重用此对象，减少内存分配产生的碎片垃圾回收，提升性能。</p>

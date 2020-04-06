@@ -73,7 +73,7 @@
       <pubDate>Thu, 26 Sep 2019 17:51:19 +0800</pubDate>
       
       <guid>http://jankeyfu.github.io/posts/linux/cmd_advanced/</guid>
-      <description> 文件查找命令 find find path -options -name file_name	#精确匹配 -iname file_name #不区分大小写精确匹配 </description>
+      <description>&lt;p&gt;除了前面提到的基本的 linux 命令之外，还有一些功能强大的其它命令，学习这些命令，能够有效提升我们的开发效率。&lt;/p&gt;</description>
     </item>
     
     <item>
