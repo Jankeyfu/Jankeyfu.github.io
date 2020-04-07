@@ -12,7 +12,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jankeyfu.github.io/posts/linux/cmd_advanced/" />
 <meta property="article:published_time" content="2019-09-26T17:51:19+08:00" />
-<meta property="article:modified_time" content="2019-09-26T17:51:19+08:00" />
+<meta property="article:modified_time" content="2020-04-07T22:45:29+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -76,6 +76,7 @@ if (!doNotTrack) {
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
 	<time class="meta__text" datetime="2019-09-26T17:51:19&#43;08:00">2019-09-26</time>
+	<time class="meta__text" datetime="2020-04-07T22:45:29&#43;08:00"> (最后修改: 2020-04-07)</time>
 </div>
 
 <div class="meta__item-categories meta__item">
@@ -98,6 +99,8 @@ if (!doNotTrack) {
 <li><a href="#文件查找命令-find">文件查找命令 find</a></li>
 <li><a href="#内容查找命令-grep">内容查找命令 grep</a></li>
 <li><a href="#内容修改命令-sed">内容修改命令 sed</a></li>
+<li><a href="#排序命令-sort">排序命令 sort</a></li>
+<li><a href="#参数转换命令-xargs">参数转换命令 xargs</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -164,6 +167,31 @@ sed <span style="color:#4070a0">&#39;s/old/new/g&#39;</span> file	<span style="c
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sed -i <span style="color:#4070a0">&#39;s/old/new/g&#39;</span> file	<span style="color:#60a0b0;font-style:italic"># 查找全部旧字符 old 并将其替换为 new，g 表示替换所有</span></code></pre></div>
 <p>值得注意的一点是，在 macos 系统上，需要多加一个参数<code>''</code>，否认会报错 <code>sed: 1: &quot;a.txt&quot;: command a expects \ followed by text</code></p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sed -i <span style="color:#4070a0">&#39;&#39;</span> <span style="color:#4070a0">&#39;s/old/new/g&#39;</span> file</code></pre></div>
+<h4 id="排序命令-sort">排序命令 sort</h4>
+
+<p>sort 将每行作为一个比较的对象，针对每行内容进行排序</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sort <span style="color:#666">[</span>params<span style="color:#666">]</span> file
+
+-c 	<span style="color:#60a0b0;font-style:italic"># 检查文件是否按照顺序排序</span>
+-f 	<span style="color:#60a0b0;font-style:italic"># 忽略大小写</span>
+-u 	<span style="color:#60a0b0;font-style:italic"># 去除重复值排序</span>
+-n 	<span style="color:#60a0b0;font-style:italic"># 按照数字大小进行排序</span>
+-r	<span style="color:#60a0b0;font-style:italic"># 反向排序</span>
+-k	<span style="color:#60a0b0;font-style:italic"># 按照指定列的指定字符按照某中格式进行排序</span>
+-t 	<span style="color:#60a0b0;font-style:italic"># 按照指定字符进行分割列，常与 -k 命令一起使用</span>
+-m 	<span style="color:#60a0b0;font-style:italic"># 将两个已排好序的文件进行合并（归并排序）</span></code></pre></div>
+<p>此处重点讲解一下 <code>k</code>参数</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">-k field.character type,field.character <span style="color:#007020">type</span>
+
+sort -t <span style="color:#4070a0">&#34; &#34;</span> -k <span style="color:#40a070">1</span>.2 <span style="color:#60a0b0;font-style:italic"># 按照第一列第二个字符进行排序</span>
+sort -t <span style="color:#4070a0">&#34; &#34;</span> -k <span style="color:#40a070">1</span>.2,1.3 -k <span style="color:#40a070">2</span>,2 <span style="color:#60a0b0;font-style:italic"># 只针对第一列的第二个和第三个字符进行排序,如果相同则针对第二列排序</span></code></pre></div>
+<h4 id="参数转换命令-xargs">参数转换命令 xargs</h4>
+
+<p>xargs 可以将命令的结果通过管道或者标准输入作为后续命令的参数，具体用法如下</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat a.txt |xargs <span style="color:#60a0b0;font-style:italic"># 将文件中的每一行内容通过 xargs 转换为一个参数，默认使用 echo 命令，将内容输出</span>
+-nx <span style="color:#60a0b0;font-style:italic"># 多行输出，每行最多x个参数</span>
+-d	<span style="color:#60a0b0;font-style:italic"># 设置分隔符，默认使用空格、换行、tab 作为分隔符</span>
+-I <span style="color:#666">{}</span> <span style="color:#60a0b0;font-style:italic"># 将每一个参数转换为变量{}，可以在后续命令中引用,如 cat a.txt|xargs -I {} echo {}+1</span></code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
