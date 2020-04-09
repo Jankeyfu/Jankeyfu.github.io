@@ -6,10 +6,19 @@
     <description>Recent content in docker on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 06 Apr 2020 16:30:34 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2020 22:46:53 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker 常用命令</title>
+      <link>http://jankeyfu.github.io/posts/skill/docker_basic_cmd/</link>
+      <pubDate>Tue, 07 Apr 2020 22:46:53 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/skill/docker_basic_cmd/</guid>
+      <description>&lt;p&gt;接下来我将为大家介绍一些 Docker 的常用命令。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Docker基础知识</title>
