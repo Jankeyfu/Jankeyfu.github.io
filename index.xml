@@ -6,10 +6,19 @@
     <description>Recent content on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 07 Apr 2020 22:46:53 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 12 Apr 2020 22:58:46 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux 命令之 AWK</title>
+      <link>http://jankeyfu.github.io/posts/linux/cmd_awk/</link>
+      <pubDate>Sun, 12 Apr 2020 22:58:46 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/linux/cmd_awk/</guid>
+      <description>&lt;p&gt;AWK 是一个强大的文本处理工具，它已经不单单是一个简单的命令，它更像是一门微型的语言。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Docker 常用命令</title>

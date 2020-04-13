@@ -4,7 +4,37 @@
   
   <url>
     <loc>http://jankeyfu.github.io/categories/</loc>
-    <lastmod>2020-04-09T23:04:00+08:00</lastmod>
+    <lastmod>2020-04-13T21:43:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/categories/linux/</loc>
+    <lastmod>2020-04-13T21:43:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/posts/linux/cmd_awk/</loc>
+    <lastmod>2020-04-13T21:43:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/posts/</loc>
+    <lastmod>2020-04-13T21:43:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/tags/shell/</loc>
+    <lastmod>2020-04-13T21:43:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/tags/</loc>
+    <lastmod>2020-04-13T21:43:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://jankeyfu.github.io/</loc>
+    <lastmod>2020-04-13T21:43:41+08:00</lastmod>
   </url>
   
   <url>
@@ -23,38 +53,13 @@
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/posts/</loc>
-    <lastmod>2020-04-09T23:04:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://jankeyfu.github.io/tags/</loc>
-    <lastmod>2020-04-09T23:04:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://jankeyfu.github.io/</loc>
-    <lastmod>2020-04-09T23:04:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://jankeyfu.github.io/posts/skill/docker_base/</loc>
     <lastmod>2020-04-06T19:47:15+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://jankeyfu.github.io/categories/linux/</loc>
-    <lastmod>2020-04-09T23:04:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://jankeyfu.github.io/posts/linux/cmd_compress/</loc>
     <lastmod>2020-03-15T14:46:09+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://jankeyfu.github.io/tags/shell/</loc>
-    <lastmod>2020-04-09T23:04:00+08:00</lastmod>
   </url>
   
   <url>

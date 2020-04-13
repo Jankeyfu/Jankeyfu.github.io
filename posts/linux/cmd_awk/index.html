@@ -4,15 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>布隆过滤器（Bloom Filter） - 温故知新以为师</title>
+	<title>Linux 命令之 AWK - 温故知新以为师</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="布隆过滤器（Bloom Filter）" />
-<meta property="og:description" content="如何判断一个数是否在某个集合中，我们最简单的方式是遍历集合判断是否存在这样一个元素，更高级一点的方式是使用哈希表，可以以 O(1) 的时间复杂度判断一个元素是否在集合中，但是当数据量达到亿级别的时候，再采用这种方式就会出现问题，那IPV4来说，现有ip数量为 256^4个（假设每一个不同的都算），以 map 存储的话，假如key是字符串，占用15字节，val是布尔型1个字节，一个k-v 占16个字节，至少也得占用2^36个字节，折算下来就是 2^36/1024/1024/1024 = 2^6 = 64G，这么大内存肯定是放不下的，因此需要一种特殊的算法来进行处理，接下来所要介绍的算法就是解决大数据下，元素是否存在于集合中这么一个问题的。" />
+	<meta property="og:title" content="Linux 命令之 AWK" />
+<meta property="og:description" content="AWK 是一个强大的文本处理工具，它已经不单单是一个简单的命令，它更像是一门微型的语言。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://jankeyfu.github.io/posts/algorithm/bloom_filter/" />
-<meta property="article:published_time" content="2020-01-05T17:25:40+08:00" />
-<meta property="article:modified_time" content="2020-01-05T17:25:40+08:00" />
+<meta property="og:url" content="http://jankeyfu.github.io/posts/linux/cmd_awk/" />
+<meta property="article:published_time" content="2020-04-12T22:58:46+08:00" />
+<meta property="article:modified_time" content="2020-04-13T21:43:41+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -71,56 +71,299 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">布隆过滤器（Bloom Filter）</h1>
+			<h1 class="post__title">Linux 命令之 AWK</h1>
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2020-01-05T17:25:40&#43;08:00">2020-01-05</time>
+	<time class="meta__text" datetime="2020-04-12T22:58:46&#43;08:00">2020-04-12</time>
+	<time class="meta__text" datetime="2020-04-13T21:43:41&#43;08:00"> (最后修改: 2020-04-13)</time>
 </div>
 
 <div class="meta__item-categories meta__item">
 	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
-	<span class="meta__text"><a class="meta__link" href="/categories/%E7%AE%97%E6%B3%95/" rel="category">算法</a>
+	<span class="meta__text"><a class="meta__link" href="/categories/linux/" rel="category">linux</a>
 	</span>
 </div></div>
 		</header>
 <div class="post__toc toc">
 	<div class="toc__title">目录</div>
 	<div class="toc__menu">
-		
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#基本语法">基本语法</a></li>
+<li><a href="#内建变量">内建变量</a></li>
+<li><a href="#操作符">操作符</a></li>
+<li><a href="#内建函数">内建函数</a></li>
+<li><a href="#脚本编程">脚本编程</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
 	</div>
 </div>
 <div class="content post__content clearfix">
-			<p>如何判断一个数是否在某个集合中，我们最简单的方式是遍历集合判断是否存在这样一个元素，更高级一点的方式是使用哈希表，可以以 <code>O(1)</code> 的时间复杂度判断一个元素是否在集合中，但是当数据量达到亿级别的时候，再采用这种方式就会出现问题，那IPV4来说，现有ip数量为 256^4个（假设每一个不同的都算），以 map 存储的话，假如key是字符串，占用15字节，val是布尔型1个字节，一个k-v 占16个字节，至少也得占用2^36个字节，折算下来就是 2^36/1024/1024/1024 = 2^6 = 64G，这么大内存肯定是放不下的，因此需要一种特殊的算法来进行处理，接下来所要介绍的算法就是解决大数据下，元素是否存在于集合中这么一个问题的。</p>
+			<p>AWK 是一个强大的文本处理工具，它已经不单单是一个简单的命令，它更像是一门微型的语言。</p>
 
-<blockquote>
-<p>布隆过滤器，实际上是一个很长的二进制向量和一系列随机映射函数，可以用于检索一个元素是否在一个集合中。它的优点是空间效率和查询时间都远远超过一般的算法，缺点是有一定的误识别率和删除困难。</p>
-</blockquote>
+<h4 id="基本语法">基本语法</h4>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">awk <span style="color:#666">[</span>params<span style="color:#666">]</span> <span style="color:#4070a0">&#39;script&#39;</span> file
+awk <span style="color:#666">[</span>params<span style="color:#666">]</span> -f script_file file
 
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Bloom_filter.svg/1920px-Bloom_filter.svg.png" alt="" /></p>
+-F	<span style="color:#60a0b0;font-style:italic"># 指定分隔符，可以使用多个分隔符分割 -F &#39;[ ,]&#39; 先用空格分割在用逗号分割</span>
+-v <span style="color:#bb60d5">var</span><span style="color:#666">=</span>val <span style="color:#60a0b0;font-style:italic"># 设置变量值</span></code></pre></div>
+<h4 id="内建变量">内建变量</h4>
 
-<p><code>布隆过滤器 = bitmap + hash</code>， 如上图（来源wikipedia）所示。</p>
+<table>
+<thead>
+<tr>
+<th align="center">变量</th>
+<th align="center">释义</th>
+</tr>
+</thead>
 
-<p>hash 我们都知道，就是通过一些逻辑运算，将元素数据转换成一个特殊的数值，且尽量保证不同的数据得到哈希值不同，但是当数据量很大的时候，难免会出现不同的数得到相同的哈希值，这就是所谓的哈希碰撞。</p>
+<tbody>
+<tr>
+<td align="center">$n</td>
+<td align="center">第 n 个字段，由 FS 分割，n 为 0 时表示完整一条记录</td>
+</tr>
 
-<p>那bitmap又是什么呢？ bitmap就是以位信息存储数据，如上图二进制串，假设串中存储的数都是非负整数，则从0开始，二进制中右数第二位是1，则可以表示1存在于bitmap中，哪一位为1，则表示哪一个数存在于map中，一个数，只占用1 bit，可以说空间效率很高；同时如要判断1是否在bitmap中，通过二进制串与 1 进行位与操作，即可判断，时间效率也很高。</p>
+<tr>
+<td align="center">ARGC</td>
+<td align="center">命令参数个数</td>
+</tr>
 
-<p>而布隆过滤器为了减少哈希冲突，通过设置一系列的hash函数，将原始数据分散开，能有效减少冲突，不过依旧无法避免特殊用例导致不同两数据，得到的结果一致的情况，因此，布隆过滤器只能说某数大概率存在于集合中，无法一定确定某个数存在于集合中。但是可以确定的是，如果某个数的多次哈希结果都不在bitmap中，那么其一定不在给定的集合中。</p>
+<tr>
+<td align="center">FS</td>
+<td align="center">字段分隔符</td>
+</tr>
 
-<p>所以综上所述</p>
+<tr>
+<td align="center">OFS</td>
+<td align="center">输出字段分隔符，默认空格</td>
+</tr>
 
-<ul>
-<li><p>当一个数的多次哈希结果不全在bitmap中时，布隆过滤器一定可以判断出其不在集合中，</p></li>
+<tr>
+<td align="center">NF</td>
+<td align="center">一条记录的字段数</td>
+</tr>
 
-<li><p>当一个数的多次哈希结果全在bitmap中时，布隆过滤器可以说其大概率是在这个集合中的，有一定的误差率。</p></li>
-</ul>
+<tr>
+<td align="center">NR</td>
+<td align="center">当前记录的行号，如果有多个文件，计数不会因文件变更而重置</td>
+</tr>
+
+<tr>
+<td align="center">FNR</td>
+<td align="center">针对多个文件分别计数，计数会因文件变更而重置</td>
+</tr>
+
+<tr>
+<td align="center">RS</td>
+<td align="center">记录的分隔符，默认是换行符</td>
+</tr>
+
+<tr>
+<td align="center">ORS</td>
+<td align="center">输出记录的分隔符，默认是换行符</td>
+</tr>
+
+<tr>
+<td align="center">FILENAME</td>
+<td align="center">文件名</td>
+</tr>
+
+<tr>
+<td align="center">IGNORECASE</td>
+<td align="center">如果为真，则忽略大小写</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="操作符">操作符</h4>
+
+<table>
+<thead>
+<tr>
+<th align="center">操作符</th>
+<th align="center">释义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">+  -  *  /  %</td>
+<td align="center">常规运算</td>
+</tr>
+
+<tr>
+<td align="center">^</td>
+<td align="center">幂运算</td>
+</tr>
+
+<tr>
+<td align="center">&amp;&amp;  ||  !</td>
+<td align="center">常规逻辑符号</td>
+</tr>
+
+<tr>
+<td align="center">~  !~</td>
+<td align="center">正则匹配或不匹配</td>
+</tr>
+
+<tr>
+<td align="center">&gt; &lt; = !=</td>
+<td align="center">关系运算符</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="内建函数">内建函数</h4>
+
+<table>
+<thead>
+<tr>
+<th align="center">函数名称</th>
+<th align="center">释义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center"><strong>数学函数</strong></td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td align="center">cos( x )、sin( x )</td>
+<td align="center">正余弦</td>
+</tr>
+
+<tr>
+<td align="center">exp( x )</td>
+<td align="center">幂函数</td>
+</tr>
+
+<tr>
+<td align="center">log( x )</td>
+<td align="center">对数函数</td>
+</tr>
+
+<tr>
+<td align="center">sqrt( x )</td>
+<td align="center">开方</td>
+</tr>
+
+<tr>
+<td align="center">int( x )</td>
+<td align="center">类型转换</td>
+</tr>
+
+<tr>
+<td align="center">rand()</td>
+<td align="center">0-1之间的随机数</td>
+</tr>
+
+<tr>
+<td align="center">srand ( [x] )</td>
+<td align="center">针对随机种子返回随机数</td>
+</tr>
+
+<tr>
+<td align="center"><strong>字符串函数</strong></td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td align="center">sub(regex,sub,s)</td>
+<td align="center">字符串替换</td>
+</tr>
+
+<tr>
+<td align="center">substr(s, start, l)</td>
+<td align="center">字符串截取</td>
+</tr>
+
+<tr>
+<td align="center">index( s1, s2 )</td>
+<td align="center">s2在s1 中的位置，从 1 开始</td>
+</tr>
+
+<tr>
+<td align="center">length(s)</td>
+<td align="center">字符串长度</td>
+</tr>
+
+<tr>
+<td align="center">match( s, Ere )</td>
+<td align="center">通过正则表达式查找所在字符串 s 中的位置</td>
+</tr>
+
+<tr>
+<td align="center">split( s, A, [Ere] )</td>
+<td align="center">分割字符为数组 A</td>
+</tr>
+
+<tr>
+<td align="center">toupper|tolower</td>
+<td align="center">转大写|小写</td>
+</tr>
+
+<tr>
+<td align="center">sprintf(format, Expr, Expr, &hellip; )</td>
+<td align="center">字符串格式化</td>
+</tr>
+
+<tr>
+<td align="center">strtonum</td>
+<td align="center">字符串转数字，0x 开头的字符串将以 16 进制进行转换</td>
+</tr>
+
+<tr>
+<td align="center"><strong>时间函数</strong></td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td align="center">mktime( YYYY MM DD HH MM SS[ DST])</td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td align="center">strftime([format [, timestamp]])</td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td align="center">systime()</td>
+<td align="center">获取系统时间</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="脚本编程">脚本编程</h4>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#60a0b0;font-style:italic"># demo.awk</span>
+BEGIN<span style="color:#666">{</span>
+	<span style="color:#60a0b0;font-style:italic"># 初始化操作，还未遍历文件内容</span>
+<span style="color:#666">}</span>
+<span style="color:#666">{</span>
+	<span style="color:#60a0b0;font-style:italic"># 遍历文件内容</span>
+<span style="color:#666">}</span>
+END<span style="color:#666">{</span>
+	<span style="color:#60a0b0;font-style:italic"># 遍历文件介绍后操作</span>
+<span style="color:#666">}</span></code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
 <div class="post__tags tags clearfix">
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
-		<li class="tags__item"><a class="tags__link btn" href="/tags//" rel="tag"></a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/shell/" rel="tag">shell</a></li>
 	</ul>
 </div>
 		</footer>
@@ -141,10 +384,7 @@ if (!doNotTrack) {
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/posts/golang/syncpool/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">Sync.Pool 对象重用利器</p></a>
-	</div>
-	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/posts/golang/channel/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Go Channel</p></a>
+		<a class="post-nav__link" href="/posts/skill/docker_basic_cmd/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">Docker 常用命令</p></a>
 	</div>
 </nav>
 <div id="git-comments"></div>
