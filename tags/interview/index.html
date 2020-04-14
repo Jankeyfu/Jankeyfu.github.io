@@ -4,21 +4,20 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Go 面试要点 - 温故知新以为师</title>
+	<title>interview - 温故知新以为师</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="Go 面试要点" />
-<meta property="og:description" content="
-本文是长期维护的Go相关的笔试面试题合集
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://jankeyfu.github.io/posts/golang/interview/" />
-<meta property="article:published_time" content="2019-08-18T22:17:58+08:00" />
-<meta property="article:modified_time" content="2019-08-18T22:17:58+08:00" />
+	<meta property="og:title" content="interview" />
+<meta property="og:description" content="Recode something" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://jankeyfu.github.io/tags/interview/" />
+
+<meta property="og:updated_time" content="2020-04-14T21:51:50+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="alternate" type="application/rss+xml" href="/tags/interview/index.xml" title="温故知新以为师">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
 	<link rel="stylesheet" href="/css/style.css">
 	
@@ -70,105 +69,42 @@ if (!doNotTrack) {
 		<div class="wrapper flex">
 			<div class="primary">
 			
-<main class="main" role="main">
-	<article class="post">
-		<header class="post__header">
-			<h1 class="post__title">Go 面试要点</h1>
-			<div class="post__meta meta">
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">interview</h1>
+	</header><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/posts/db/mysql_interview/" rel="bookmark">
+			MySQL 知识要点
+			</a>
+		</h3>
+		<div class="list__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-08-18T22:17:58&#43;08:00">2019-08-18</time>
+	<time class="meta__text" datetime="2020-04-14T21:51:50&#43;08:00">2020-04-14</time>
+	<time class="meta__text" datetime="2020-04-14T22:49:05&#43;08:00"> (最后修改: 2020-04-14)</time>
 </div>
 
 <div class="meta__item-categories meta__item">
 	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
-	<span class="meta__text"><a class="meta__link" href="/categories/golang/" rel="category">golang</a>
+	<span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
 	</span>
 </div></div>
-		</header>
-<div class="post__toc toc">
-	<div class="toc__title">目录</div>
-	<div class="toc__menu">
-		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>在日常开发过程中，有很多 MySQL 的基础要点会忽略，此文主要记录一些比较容易忽略的知识要点，或是提供一些常见问题的解决方案。</p>
 	</div>
-</div>
-<div class="content post__content clearfix">
-			<blockquote>
-<p>本文是长期维护的Go相关的笔试面试题合集</p>
-</blockquote>
-
-<ol>
-<li><p><code>defer</code>  请说出下列代码的输出结果</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">main</span>() {
-	fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;main:%d\n&#34;</span>, <span style="color:#06287e">deferFunc</span>())
-}
-
-<span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">deferFunc</span>() <span style="color:#902000">int</span> {
-	<span style="color:#007020;font-weight:bold">var</span> i <span style="color:#902000">int</span>
-	<span style="color:#007020;font-weight:bold">defer</span> <span style="color:#007020;font-weight:bold">func</span>() {
-		i<span style="color:#666">++</span>
-		fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;first defer:%d\n&#34;</span>, i)
-	}()
-	<span style="color:#007020;font-weight:bold">defer</span> <span style="color:#007020;font-weight:bold">func</span>() {
-		i<span style="color:#666">++</span>
-		fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;second defer:%d\n&#34;</span>, i)
-	}()
-	<span style="color:#007020;font-weight:bold">return</span> i
-}
-<span style="color:#60a0b0;font-style:italic">// second defer:1
-</span><span style="color:#60a0b0;font-style:italic">// first defer:2
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> main:<span style="color:#40a070">2</span></code></pre></div></li>
-</ol>
-
-<ul>
-<li>defer的执行顺序是栈调用，<strong>后进先出</strong>，所以最后定义的defer函数最先执行。</li>
-<li>在函数体中有panic的时候，会层层调用defer函数，直到有某个defer函数处理panic为止，如果没有，则程序抛出panic</li>
-<li>如果函数中有<code>os.Exit()</code>函数调用，则defer函数不会执行</li>
-<li>return语句的赋值操作 <strong>先于</strong> defer函数执行 <strong>先于</strong> 函数返回</li>
-</ul>
-		</div>
-	</article>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/db/mysql_interview/">阅读全文…</a>
+	</div>
+</article>
 </main>
-
-<div class="authorbox clearfix">
-	<figure class="authorbox__avatar">
-		<img alt="Jankeyfu avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
-	</figure>
-	<div class="authorbox__header">
-		<span class="authorbox__name">关于 Jankeyfu</span>
-	</div>
-	<div class="authorbox__description">
-		某不知名公司的某不知名程序员！
-	</div>
-</div>
-
-<nav class="post-nav flex">
-	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/posts/db/redis_data_struct/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">Redis 数据结构 —— 字符串</p></a>
-	</div>
-	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/posts/golang/logrus/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Logrus</p></a>
-	</div>
-</nav>
-<div id="git-comments"></div>
-<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-<script>
-    const gitalk = new Gitalk({
-        clientID: '828d851e2cca8472fff7',
-        clientSecret: '8010aa440c2565f5fd290194be72ed211584a952',
-        repo: 'jankeyfu.github.io',
-        owner: 'jankeyfu',
-        admin: ['jankeyfu'],
-        id: location.pathname,      
-        distractionFreeMode: false  
-    })
-    gitalk.render('git-comments')
-</script>
 
 
 			</div>
-			<aside class="sidebar"><div class="widget-search widget">
+			
+<aside class="sidebar"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
 			<input class="widget-search__field" type="search" placeholder="搜索..." value="" name="q" aria-label="搜索...">

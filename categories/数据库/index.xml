@@ -6,10 +6,19 @@
     <description>Recent content in 数据库 on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 26 Aug 2019 10:07:21 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2020 21:51:50 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MySQL 知识要点</title>
+      <link>http://jankeyfu.github.io/posts/db/mysql_interview/</link>
+      <pubDate>Tue, 14 Apr 2020 21:51:50 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/db/mysql_interview/</guid>
+      <description>&lt;p&gt;在日常开发过程中，有很多 MySQL 的基础要点会忽略，此文主要记录一些比较容易忽略的知识要点，或是提供一些常见问题的解决方案。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>MySQL EXPLAIN</title>

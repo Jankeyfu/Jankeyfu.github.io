@@ -6,10 +6,19 @@
     <description>Recent content in Posts on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 12 Apr 2020 22:58:46 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2020 21:51:50 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MySQL 知识要点</title>
+      <link>http://jankeyfu.github.io/posts/db/mysql_interview/</link>
+      <pubDate>Tue, 14 Apr 2020 21:51:50 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/db/mysql_interview/</guid>
+      <description>&lt;p&gt;在日常开发过程中，有很多 MySQL 的基础要点会忽略，此文主要记录一些比较容易忽略的知识要点，或是提供一些常见问题的解决方案。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Linux 命令之 AWK</title>
@@ -109,7 +118,7 @@
       <pubDate>Thu, 26 Sep 2019 17:30:41 +0800</pubDate>
       
       <guid>http://jankeyfu.github.io/posts/linux/cmd_base/</guid>
-      <description>&lt;p&gt;对于刚接触到开发的同学，势必是需要了解一些基本的Linux命令的，这些都是日常开发过程中使用频繁的命令，多用即可熟练掌握。&lt;/p&gt;</description>
+      <description>&lt;p&gt;对于刚学习开发的同学，了解一些基本的Linux命令还是很有必要的，下面都是都是日常开发过程中使用的基本命令。&lt;/p&gt;</description>
     </item>
     
     <item>

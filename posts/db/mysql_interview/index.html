@@ -4,17 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Go 面试要点 - 温故知新以为师</title>
+	<title>MySQL 知识要点 - 温故知新以为师</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="Go 面试要点" />
-<meta property="og:description" content="
-本文是长期维护的Go相关的笔试面试题合集
-" />
+	<meta property="og:title" content="MySQL 知识要点" />
+<meta property="og:description" content="在日常开发过程中，有很多 MySQL 的基础要点会忽略，此文主要记录一些比较容易忽略的知识要点，或是提供一些常见问题的解决方案。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://jankeyfu.github.io/posts/golang/interview/" />
-<meta property="article:published_time" content="2019-08-18T22:17:58+08:00" />
-<meta property="article:modified_time" content="2019-08-18T22:17:58+08:00" />
+<meta property="og:url" content="http://jankeyfu.github.io/posts/db/mysql_interview/" />
+<meta property="article:published_time" content="2020-04-14T21:51:50+08:00" />
+<meta property="article:modified_time" content="2020-04-14T22:49:05+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -73,16 +71,17 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">Go 面试要点</h1>
+			<h1 class="post__title">MySQL 知识要点</h1>
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-08-18T22:17:58&#43;08:00">2019-08-18</time>
+	<time class="meta__text" datetime="2020-04-14T21:51:50&#43;08:00">2020-04-14</time>
+	<time class="meta__text" datetime="2020-04-14T22:49:05&#43;08:00"> (最后修改: 2020-04-14)</time>
 </div>
 
 <div class="meta__item-categories meta__item">
 	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
-	<span class="meta__text"><a class="meta__link" href="/categories/golang/" rel="category">golang</a>
+	<span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
 	</span>
 </div></div>
 		</header>
@@ -93,40 +92,39 @@ if (!doNotTrack) {
 	</div>
 </div>
 <div class="content post__content clearfix">
-			<blockquote>
-<p>本文是长期维护的Go相关的笔试面试题合集</p>
+			<p>在日常开发过程中，有很多 MySQL 的基础要点会忽略，此文主要记录一些比较容易忽略的知识要点，或是提供一些常见问题的解决方案。</p>
+
+<p><strong>1、auto_increment 服务重启后在不同的存储引擎中的表现</strong></p>
+
+<blockquote>
+<p><strong>For InnoDB</strong></p>
+
+<p>In MySQL 5.7 and earlier, the auto-increment counter is stored only in main memory, not on disk.</p>
+
+<p>In MySQL 8.0, this behavior is changed. The current maximum auto-increment counter value is written to the redo log each time it changes and is saved to an engine-private system table on each checkpoint. These changes make the current maximum auto-increment counter value persistent across server restarts.</p>
 </blockquote>
 
-<ol>
-<li><p><code>defer</code>  请说出下列代码的输出结果</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">main</span>() {
-	fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;main:%d\n&#34;</span>, <span style="color:#06287e">deferFunc</span>())
-}
+<ul>
+<li>InnoDB：在 5.7 之前，重启服务后，自增 ID 为数据表最大 ID，因为这个自增 ID 存在内存中，但是到了 8.0，MySQL 会将此参数值持久化下来，不会丢失原有的自增 ID 值。</li>
+<li>MyISAM：和 8.0 的 InnoDB 一样，会持久化此数据，即使重启服务也不会丢失。</li>
+</ul>
 
-<span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">deferFunc</span>() <span style="color:#902000">int</span> {
-	<span style="color:#007020;font-weight:bold">var</span> i <span style="color:#902000">int</span>
-	<span style="color:#007020;font-weight:bold">defer</span> <span style="color:#007020;font-weight:bold">func</span>() {
-		i<span style="color:#666">++</span>
-		fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;first defer:%d\n&#34;</span>, i)
-	}()
-	<span style="color:#007020;font-weight:bold">defer</span> <span style="color:#007020;font-weight:bold">func</span>() {
-		i<span style="color:#666">++</span>
-		fmt.<span style="color:#06287e">Printf</span>(<span style="color:#4070a0">&#34;second defer:%d\n&#34;</span>, i)
-	}()
-	<span style="color:#007020;font-weight:bold">return</span> i
-}
-<span style="color:#60a0b0;font-style:italic">// second defer:1
-</span><span style="color:#60a0b0;font-style:italic">// first defer:2
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> main:<span style="color:#40a070">2</span></code></pre></div></li>
-</ol>
+<p><strong>2、MySQL数据库 CPU 飙升如何处理？</strong></p>
 
 <ul>
-<li>defer的执行顺序是栈调用，<strong>后进先出</strong>，所以最后定义的defer函数最先执行。</li>
-<li>在函数体中有panic的时候，会层层调用defer函数，直到有某个defer函数处理panic为止，如果没有，则程序抛出panic</li>
-<li>如果函数中有<code>os.Exit()</code>函数调用，则defer函数不会执行</li>
-<li>return语句的赋值操作 <strong>先于</strong> defer函数执行 <strong>先于</strong> 函数返回</li>
+<li>通过<code>show processlist</code> 查看是否有正在执行的慢查询，如有需要，通过命令 <code>kill ID</code> 将部分长时间查询的慢 SQL 查询干掉</li>
 </ul>
 		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/mysql/" rel="tag">mysql</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/interview/" rel="tag">interview</a></li>
+	</ul>
+</div>
+		</footer>
 	</article>
 </main>
 
@@ -144,10 +142,7 @@ if (!doNotTrack) {
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/posts/db/redis_data_struct/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">Redis 数据结构 —— 字符串</p></a>
-	</div>
-	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/posts/golang/logrus/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Logrus</p></a>
+		<a class="post-nav__link" href="/posts/linux/cmd_awk/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">Linux 命令之 AWK</p></a>
 	</div>
 </nav>
 <div id="git-comments"></div>
