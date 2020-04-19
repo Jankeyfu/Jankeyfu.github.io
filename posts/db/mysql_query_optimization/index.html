@@ -4,15 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Redis 数据结构 —— 字符串 - 温故知新以为师</title>
+	<title>MySQL 查询优化 - 温故知新以为师</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="Redis 数据结构 —— 字符串" />
-<meta property="og:description" content="redis 是一个基于C语言设计的开源的高性能的内存型数据结构存储系统，它可以用作数据库、缓存和消息中间件等。它支持以下五种数据格式： 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）和有序集合（sorted sets）。今天就从源码的角度分析一下这五种数据格式是怎么实现的。" />
+	<meta property="og:title" content="MySQL 查询优化" />
+<meta property="og:description" content="在日常开发过程中，免不了会遇到程序中出现查询慢的情况，那我们需要怎样做才能让我们的查询更快一步呢？这就需要学习 MySQL 查询优化相关的知识了。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://jankeyfu.github.io/posts/db/redis_data_struct/" />
-<meta property="article:published_time" content="2019-08-11T15:58:49+08:00" />
-<meta property="article:modified_time" content="2019-08-11T15:58:49+08:00" />
+<meta property="og:url" content="http://jankeyfu.github.io/posts/db/mysql_query_optimization/" />
+<meta property="article:published_time" content="2020-04-19T17:53:48+08:00" />
+<meta property="article:modified_time" content="2020-04-19T18:01:43+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -71,11 +71,12 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">Redis 数据结构 —— 字符串</h1>
+			<h1 class="post__title">MySQL 查询优化</h1>
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-08-11T15:58:49&#43;08:00">2019-08-11</time>
+	<time class="meta__text" datetime="2020-04-19T17:53:48&#43;08:00">2020-04-19</time>
+	<time class="meta__text" datetime="2020-04-19T18:01:43&#43;08:00"> (最后修改: 2020-04-19)</time>
 </div>
 
 <div class="meta__item-categories meta__item">
@@ -95,10 +96,9 @@ if (!doNotTrack) {
 <ul>
 <li>
 <ul>
-<li><a href="#字符串">字符串</a>
-<ul>
-<li><a href="#redis字符串操作命令">Redis字符串操作命令</a></li>
-</ul></li>
+<li><a href="#mysql-查询流程">MySQL 查询流程</a></li>
+<li><a href="#explain-分析">Explain 分析</a></li>
+<li><a href="#查询优化">查询优化</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -107,58 +107,46 @@ if (!doNotTrack) {
 	</div>
 </div>
 <div class="content post__content clearfix">
-			<p>redis 是一个基于C语言设计的开源的高性能的内存型数据结构存储系统，它可以用作数据库、缓存和消息中间件等。它支持以下五种数据格式： 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）和有序集合（sorted sets）。今天就从源码的角度分析一下这五种数据格式是怎么实现的。</p>
+			<p>在日常开发过程中，免不了会遇到程序中出现查询慢的情况，那我们需要怎样做才能让我们的查询更快一步呢？这就需要学习 MySQL 查询优化相关的知识了。</p>
 
-<h4 id="字符串">字符串</h4>
+<h4 id="mysql-查询流程">MySQL 查询流程</h4>
 
-<h5 id="redis字符串操作命令">Redis字符串操作命令</h5>
+<ol>
+<li>客户端发送一条查询给服务器</li>
+<li>服务器先检查缓存、命中则返回，否则下一步</li>
+<li>服务器进行 SQL 解析、预处理、由优化器生成执行计划</li>
+<li>依据执行计划，调用存储引擎 API 执行查询</li>
+<li>将结果返回给客户端</li>
+</ol>
 
-<blockquote>
-<p><code>127.0.0.1:6379&gt;</code> 为redis客户端显示内容</p>
-</blockquote>
+<h4 id="explain-分析">Explain 分析</h4>
 
-<ul>
-<li><p>设置、获取key的内容，时间复杂度<code>O(1)</code>，当key不存在的时候，<code>GET</code>返回的值为<code>nil</code>，在2.6.12版本后，redis为<code>SET</code>命令增加了一些新参数，<code>EX</code>表示过期时间（单位秒）等价于<code>SETEX</code>命令，<code>PX</code>过期时间（单位毫秒）等价于<code>PSETEX</code>,<code>NX</code>只有当key不存在的时候才能设置成功等价于<code>SETNX</code>，<code>XX</code>只有当key存在的时候才能设置成功。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET key
-<span style="color:#4070a0">&#34;value&#34;</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET nil
-<span style="color:#666">(</span>nil<span style="color:#666">)</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value EX <span style="color:#40a070">10</span>
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value PX <span style="color:#40a070">10</span>
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value NX
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value XX
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value NX <span style="color:#60a0b0;font-style:italic">#当key存在的时候则设置不成功</span>
-<span style="color:#666">(</span>nil<span style="color:#666">)</span></code></pre></div></li>
+<p><a href="./mysql_explain.md">MySQL EXPLAIN </a></p>
 
-<li><p>字符串追加命令<code>APPEND</code>，当key不存在的时候，次命令相当于<code>SET</code>，当key存在的时候，相当于在字符串后面拼接新的内容。时间复杂度<code>O(1)</code></p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#40a070">127</span>.0.0.1:6379&gt; APPEND key value
-<span style="color:#666">(</span>integer<span style="color:#666">)</span> <span style="color:#40a070">5</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; APPEND key <span style="color:#4070a0">&#34;is 5 characters long&#34;</span>
-<span style="color:#666">(</span>integer<span style="color:#666">)</span> <span style="color:#40a070">25</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET key
-<span style="color:#4070a0">&#34;valueis 5 characters long&#34;</span></code></pre></div></li>
-</ul>
+<h4 id="查询优化">查询优化</h4>
 
-<hr />
+<p>1、不是全表查询，只查询需要的字段，尽可能避免大量的 <code>select *</code> 操作，但是有时候 <code>select *</code> 能够利用 MySQL 的缓存机制对数据进行缓存，所有也需要相应的权衡。</p>
 
-<blockquote>
-<p><a href="https://book.douban.com/subject/25900156/">《redis 设计与实现》  黄建宏</a></p>
+<p>2、查看是否扫描了不需要的行：通过 <code>explain</code> 进行查看查询扫描的类型（<code>type</code> 字段)：从全表扫描、索引扫描、范围扫描、唯一索引查询、常数引用，速度由慢到快，扫描行数（<code>rows</code> 字段）也由多到少。尽可能地减少获取数据所需要扫描的行数，可以，能有效提升查询速度。</p>
 
-<p><a href="http://redis.cn/">redis 中文网</a></p>
-</blockquote>
+<p>3、如果一个查询能解决的问题，尽量不要拆成多个查询。</p>
+
+<p>4、查询切分：将一次需要查询大批量数据的切分成多次查询，方式查询数据过多导致数据加锁操作。</p>
+
+<p>5、分解关联查询：将关联查询分解为多个单查询；此处主要利用的是 MySQL 的缓存、同时减少锁竞争；</p>
+
+<p>6、关联查询小表驱动大表：先通过条件查询小表数据，再去关联大表进行数据查询，以减少扫描的数据量。如果执行计划没有按照指定的关联顺序执行，可以通过 <code>STRAIGHT_JOIN</code> 关键字强制按照我们 SQL 的关联顺序执行。</p>
+
+<p>7、LIMIT 分页优化：当 limit 的 offset 达到一定程度的时候，扫描的数据量就会很多，这时候会影响分页查询，可以通过获取上一次查询的最大 ID 作为筛选条件，减少扫描的数据行。</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#007020;font-weight:bold">select</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">from</span> tb <span style="color:#007020;font-weight:bold">where</span> cond <span style="color:#007020;font-weight:bold">limit</span> <span style="color:#40a070">10000</span>,<span style="color:#40a070">20</span>;
+<span style="color:#007020;font-weight:bold">select</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">from</span> tb <span style="color:#007020;font-weight:bold">where</span> cond <span style="color:#007020;font-weight:bold">and</span> id <span style="color:#666">&gt;</span> <span style="color:#40a070">100000</span> <span style="color:#007020;font-weight:bold">limit</span> <span style="color:#40a070">20</span>; <span style="color:#60a0b0;font-style:italic">-- 性能更优</span></code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
 <div class="post__tags tags clearfix">
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
-		<li class="tags__item"><a class="tags__link btn" href="/tags/redis/" rel="tag">redis</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/mysql/" rel="tag">mysql</a></li>
 	</ul>
 </div>
 		</footer>
@@ -179,10 +167,7 @@ OK
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/posts/net/what_happens_when_enter_url_into_browser/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">当你在浏览器中输入网址后都发生了什么？</p></a>
-	</div>
-	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/posts/golang/interview/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Go 面试要点</p></a>
+		<a class="post-nav__link" href="/posts/db/mysql_transaction/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">MySQL 事务</p></a>
 	</div>
 </nav>
 <div id="git-comments"></div>

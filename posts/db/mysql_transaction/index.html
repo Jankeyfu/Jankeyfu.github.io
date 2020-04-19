@@ -4,15 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Redis 数据结构 —— 字符串 - 温故知新以为师</title>
+	<title>MySQL 事务 - 温故知新以为师</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="Redis 数据结构 —— 字符串" />
-<meta property="og:description" content="redis 是一个基于C语言设计的开源的高性能的内存型数据结构存储系统，它可以用作数据库、缓存和消息中间件等。它支持以下五种数据格式： 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）和有序集合（sorted sets）。今天就从源码的角度分析一下这五种数据格式是怎么实现的。" />
+	<meta property="og:title" content="MySQL 事务" />
+<meta property="og:description" content="事务就是一次原子性的 SQL 查询，在一次事务中的多个 SQL 查询，要么全部成功，要么全部不成功。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://jankeyfu.github.io/posts/db/redis_data_struct/" />
-<meta property="article:published_time" content="2019-08-11T15:58:49+08:00" />
-<meta property="article:modified_time" content="2019-08-11T15:58:49+08:00" />
+<meta property="og:url" content="http://jankeyfu.github.io/posts/db/mysql_transaction/" />
+<meta property="article:published_time" content="2020-04-18T12:49:35+08:00" />
+<meta property="article:modified_time" content="2020-04-19T18:01:43+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -71,11 +71,12 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">Redis 数据结构 —— 字符串</h1>
+			<h1 class="post__title">MySQL 事务</h1>
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-08-11T15:58:49&#43;08:00">2019-08-11</time>
+	<time class="meta__text" datetime="2020-04-18T12:49:35&#43;08:00">2020-04-18</time>
+	<time class="meta__text" datetime="2020-04-19T18:01:43&#43;08:00"> (最后修改: 2020-04-19)</time>
 </div>
 
 <div class="meta__item-categories meta__item">
@@ -95,10 +96,8 @@ if (!doNotTrack) {
 <ul>
 <li>
 <ul>
-<li><a href="#字符串">字符串</a>
-<ul>
-<li><a href="#redis字符串操作命令">Redis字符串操作命令</a></li>
-</ul></li>
+<li><a href="#事务特性acid">事务特性ACID</a></li>
+<li><a href="#事务隔离级别">事务隔离级别</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -107,58 +106,89 @@ if (!doNotTrack) {
 	</div>
 </div>
 <div class="content post__content clearfix">
-			<p>redis 是一个基于C语言设计的开源的高性能的内存型数据结构存储系统，它可以用作数据库、缓存和消息中间件等。它支持以下五种数据格式： 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）和有序集合（sorted sets）。今天就从源码的角度分析一下这五种数据格式是怎么实现的。</p>
+			<p>事务就是一次原子性的 SQL 查询，在一次事务中的多个 SQL 查询，要么全部成功，要么全部不成功。</p>
 
-<h4 id="字符串">字符串</h4>
-
-<h5 id="redis字符串操作命令">Redis字符串操作命令</h5>
-
-<blockquote>
-<p><code>127.0.0.1:6379&gt;</code> 为redis客户端显示内容</p>
-</blockquote>
+<h4 id="事务特性acid">事务特性ACID</h4>
 
 <ul>
-<li><p>设置、获取key的内容，时间复杂度<code>O(1)</code>，当key不存在的时候，<code>GET</code>返回的值为<code>nil</code>，在2.6.12版本后，redis为<code>SET</code>命令增加了一些新参数，<code>EX</code>表示过期时间（单位秒）等价于<code>SETEX</code>命令，<code>PX</code>过期时间（单位毫秒）等价于<code>PSETEX</code>,<code>NX</code>只有当key不存在的时候才能设置成功等价于<code>SETNX</code>，<code>XX</code>只有当key存在的时候才能设置成功。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET key
-<span style="color:#4070a0">&#34;value&#34;</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET nil
-<span style="color:#666">(</span>nil<span style="color:#666">)</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value EX <span style="color:#40a070">10</span>
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value PX <span style="color:#40a070">10</span>
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value NX
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value XX
-OK
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; SET key value NX <span style="color:#60a0b0;font-style:italic">#当key存在的时候则设置不成功</span>
-<span style="color:#666">(</span>nil<span style="color:#666">)</span></code></pre></div></li>
-
-<li><p>字符串追加命令<code>APPEND</code>，当key不存在的时候，次命令相当于<code>SET</code>，当key存在的时候，相当于在字符串后面拼接新的内容。时间复杂度<code>O(1)</code></p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#40a070">127</span>.0.0.1:6379&gt; APPEND key value
-<span style="color:#666">(</span>integer<span style="color:#666">)</span> <span style="color:#40a070">5</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; APPEND key <span style="color:#4070a0">&#34;is 5 characters long&#34;</span>
-<span style="color:#666">(</span>integer<span style="color:#666">)</span> <span style="color:#40a070">25</span>
-<span style="color:#40a070">127</span>.0.0.1:6379&gt; GET key
-<span style="color:#4070a0">&#34;valueis 5 characters long&#34;</span></code></pre></div></li>
+<li><strong>原子性（atomicity）</strong>：一个事务必须视作不可分割的最小单元，所有操作要么全部成功，要么全部失败。</li>
+<li><strong>一致性（consistency）</strong>：数据库总是从一个一致性的状态到另外一个一致性的状态，不会出现事务中的 SQL 部分成功导致数据不一致的情况。</li>
+<li><strong>隔离性（isolation）</strong>：通常来说一个事务所做的修改在提交之前对其他事务是不可见的，具体需要依隔离级别而定。</li>
+<li><strong>持久性（durability）</strong>：一旦事务提交，所做的修改就会永久保存到数据库中。</li>
 </ul>
 
-<hr />
+<h4 id="事务隔离级别">事务隔离级别</h4>
 
-<blockquote>
-<p><a href="https://book.douban.com/subject/25900156/">《redis 设计与实现》  黄建宏</a></p>
+<ul>
+<li><p><strong>未提交读（READ UNCOMMITTED）</strong>：事务中的修改，即使没有提交，在别的事务中也是可见的，这也称为<strong>脏读（Dirty Read）</strong></p></li>
 
-<p><a href="http://redis.cn/">redis 中文网</a></p>
-</blockquote>
+<li><p><strong>提交读（READ COMMITTED）</strong>：一个事务开始时，只能看到已提交的修改，满足隔离性的简单定义。也称为<strong>不可重复读（Nonrepeatable Read）</strong>，因为在这个事务开始和结束后读取到的数据是不一样的。此级别是大部分数据库系统的默认隔离级别。</p></li>
+
+<li><p><strong>可重复读（REPEATABLE READ）</strong>：该级别保证了在一个事务中多次读取同样记录的结果是一致的，解决了脏读的问题，但是会出现幻读的问题。此级别是 MySQL 的默认隔离级别。<strong>MySQL InnoDB RR隔离级别</strong>不会出现幻读的情况： <strong>RR隔离级别保证对读取到的记录加锁 (记录锁)，同时保证对读取的范围加锁，新的满足查询条件的记录不能够插入 (间隙锁)</strong></p></li>
+
+<li><p><strong>可串行化（SERIALIZABLE）</strong>：这是最高的隔离级别，强制事务串行执行，避免幻读的可能，但是此隔离级别会在读取的每一行数据上都加锁，可能导致大量的超时和锁竞争的问题。</p></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th align="center">隔离级别</th>
+<th align="center">脏读</th>
+<th align="center">不可重复读</th>
+<th align="center">幻读</th>
+<th align="center">加锁读</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">READ UNCOMMITED</td>
+<td align="center">Yes</td>
+<td align="center">Yes</td>
+<td align="center">Yes</td>
+<td align="center">No</td>
+</tr>
+
+<tr>
+<td align="center">READ COMMITTED</td>
+<td align="center">No</td>
+<td align="center">Yes</td>
+<td align="center">Yes</td>
+<td align="center">No</td>
+</tr>
+
+<tr>
+<td align="center">REPEATEBLE READ</td>
+<td align="center">No</td>
+<td align="center">No</td>
+<td align="center">Yes</td>
+<td align="center">No</td>
+</tr>
+
+<tr>
+<td align="center">SERIALIZABLE</td>
+<td align="center">No</td>
+<td align="center">No</td>
+<td align="center">No</td>
+<td align="center">Yes</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>幻读和不可重复读的区别</strong></p>
+
+<ul>
+<li><p><strong>不可重复读</strong>：事务 A 两次查询结果不一致；事务 A 查询第一次，事务 B 修改查询数据并提交，事务 A 查询第二次，此时第二次数据和第一次数据不一致，这就是不可重复读。</p></li>
+
+<li><p><strong>幻读</strong>：是不可重复读的一种特例；事务 A 通过范围查询第一次，事务 B 插入一条新数据在 A 的查询范围内，事务 A 第二次查询会发现，比第一次查询多一条数据，也就是出现了幻行的现象。</p></li>
+</ul>
 		</div>
 		<footer class="post__footer">
 			
 <div class="post__tags tags clearfix">
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
-		<li class="tags__item"><a class="tags__link btn" href="/tags/redis/" rel="tag">redis</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/mysql/" rel="tag">mysql</a></li>
 	</ul>
 </div>
 		</footer>
@@ -179,10 +209,10 @@ OK
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/posts/net/what_happens_when_enter_url_into_browser/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">当你在浏览器中输入网址后都发生了什么？</p></a>
+		<a class="post-nav__link" href="/posts/db/mysql_index/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">MySQL 索引</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/posts/golang/interview/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">Go 面试要点</p></a>
+		<a class="post-nav__link" href="/posts/db/mysql_query_optimization/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">MySQL 查询优化</p></a>
 	</div>
 </nav>
 <div id="git-comments"></div>

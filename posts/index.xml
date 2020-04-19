@@ -6,10 +6,37 @@
     <description>Recent content in Posts on 温故知新以为师</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 14 Apr 2020 21:51:50 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 19 Apr 2020 17:53:48 +0800</lastBuildDate>
     
 	<atom:link href="http://jankeyfu.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MySQL 查询优化</title>
+      <link>http://jankeyfu.github.io/posts/db/mysql_query_optimization/</link>
+      <pubDate>Sun, 19 Apr 2020 17:53:48 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/db/mysql_query_optimization/</guid>
+      <description>&lt;p&gt;在日常开发过程中，免不了会遇到程序中出现查询慢的情况，那我们需要怎样做才能让我们的查询更快一步呢？这就需要学习 MySQL 查询优化相关的知识了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL 事务</title>
+      <link>http://jankeyfu.github.io/posts/db/mysql_transaction/</link>
+      <pubDate>Sat, 18 Apr 2020 12:49:35 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/db/mysql_transaction/</guid>
+      <description>&lt;p&gt;事务就是一次原子性的 SQL 查询，在一次事务中的多个 SQL 查询，要么全部成功，要么全部不成功。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL 索引</title>
+      <link>http://jankeyfu.github.io/posts/db/mysql_index/</link>
+      <pubDate>Fri, 17 Apr 2020 21:47:20 +0800</pubDate>
+      
+      <guid>http://jankeyfu.github.io/posts/db/mysql_index/</guid>
+      <description>&lt;p&gt;索引可以让服务器快速定位到表的指定位置，但这并不是索引的唯一作用，根据索引的类型不同，索引还有一些附加的用途，如 B 树索引，由于按照顺序存储数据，所以可用来做&lt;code&gt;ORDER BY&lt;/code&gt; 和 &lt;code&gt;GROUP BY&lt;/code&gt; 操作。因此，索引总结下来有以下三个优点：&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>MySQL 知识要点</title>
