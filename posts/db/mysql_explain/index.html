@@ -12,7 +12,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jankeyfu.github.io/posts/db/mysql_explain/" />
 <meta property="article:published_time" content="2019-08-26T10:07:21+08:00" />
-<meta property="article:modified_time" content="2020-04-19T18:01:43+08:00" />
+<meta property="article:modified_time" content="2020-04-20T22:28:23+08:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -76,7 +76,7 @@ if (!doNotTrack) {
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
 	<time class="meta__text" datetime="2019-08-26T10:07:21&#43;08:00">2019-08-26</time>
-	<time class="meta__text" datetime="2020-04-19T18:01:43&#43;08:00"> (最后修改: 2020-04-19)</time>
+	<time class="meta__text" datetime="2020-04-20T22:28:23&#43;08:00"> (最后修改: 2020-04-20)</time>
 </div>
 
 <div class="meta__item-categories meta__item">
@@ -99,6 +99,7 @@ if (!doNotTrack) {
 <li><a href="#id">id</a></li>
 <li><a href="#select-type">select_type</a></li>
 <li><a href="#type">type</a></li>
+<li><a href="#参考资料">参考资料</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -260,6 +261,12 @@ if (!doNotTrack) {
 <li><p><strong>all</strong> 全表扫描，如果第一张表的查询方式是 all，这是非常不合适的，有严重的性能问题，需要增加索引进行优化。</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#60a0b0;font-style:italic">-- name 为非索引字段
 </span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#007020;font-weight:bold">EXPLAIN</span> <span style="color:#007020;font-weight:bold">SELECT</span> <span style="color:#666">*</span> <span style="color:#007020;font-weight:bold">FROM</span> employee <span style="color:#007020;font-weight:bold">WHERE</span> NAME <span style="color:#666">=</span> <span style="color:#4070a0">&#39;张三&#39;</span></code></pre></div></li>
+</ul>
+
+<h4 id="参考资料">参考资料</h4>
+
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/explain-output.html">https://dev.mysql.com/doc/refman/8.0/en/explain-output.html</a></li>
 </ul>
 		</div>
 		<footer class="post__footer">
