@@ -7,19 +7,22 @@
 	<title>Logrus - 温故知新以为师</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="Logrus" />
+		<meta property="og:title" content="Logrus" />
 <meta property="og:description" content="logrus是Go语言编写的结构化日志工具，拥有丰富的日志API，支持自定义格式输出同时也支持hook操作，是目前比较流行的Go语言日志记录工具。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://jankeyfu.github.io/posts/golang/logrus/" />
+<meta property="og:url" content="http://jankeyfu.github.io/posts/golang/logrus/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-08-23T18:03:32+08:00" />
 <meta property="article:modified_time" content="2019-08-23T18:03:32+08:00" />
 
-	
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
 	<link rel="stylesheet" href="/css/style.css">
 	
+
 	<link rel="shortcut icon" href="/favicon.ico">
 		
 <script type="application/javascript">
@@ -37,7 +40,7 @@ if (!doNotTrack) {
 
 <script async src="//cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script>
     $(document).ready(function() {
         var int = setInterval(fixCount, 100);
@@ -51,17 +54,21 @@ if (!doNotTrack) {
     });
 </script>
 
+
 </head>
 <body class="body">
 	<div class="container container--outer">
 		<header class="header">
-	<div class="container">
-		<div class="logo">
-			<a class="logo__link" href="/" title="温故知新以为师" rel="home">
-				<div class="logo__title">温故知新以为师</div>
-				<div class="logo__tagline">Keep Learning &amp; Keep Thinking</div>
-			</a>
-		</div>
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="温故知新以为师" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">温故知新以为师</div>
+					<div class="logo__tagline">Keep Learning &amp; Keep Thinking</div>
+				</div>
+		</a>
+	</div>
 		<div class="divider"></div>
 	</div>
 </header>
@@ -72,52 +79,32 @@ if (!doNotTrack) {
 	<article class="post">
 		<header class="post__header">
 			<h1 class="post__title">Logrus</h1>
-			<div class="post__meta meta">
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-08-23T18:03:32&#43;08:00">2019-08-23</time>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Jankeyfu</span>
 </div>
-
-<div class="meta__item-categories meta__item">
-	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
-	<span class="meta__text"><a class="meta__link" href="/categories/golang/" rel="category">golang</a>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-08-23T18:03:32&#43;08:00">2019-08-23</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/golang/" rel="category">golang</a>
 	</span>
 </div></div>
 		</header>
+		
 <div class="post__toc toc">
 	<div class="toc__title">目录</div>
 	<div class="toc__menu">
 		<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#结构体">结构体</a></li>
-<li><a href="#日志等级">日志等级</a></li>
-<li><a href="#日志对象的创建">日志对象的创建</a></li>
-<li><a href="#日志格式化数据api">日志格式化数据API</a></li>
-<li><a href="#日志内容api">日志内容API</a></li>
-<li><a href="#std-logger-api">std Logger API</a></li>
-<li><a href="#日志格式化">日志格式化</a></li>
-<li><a href="#hook">Hook</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
 	</div>
-</div>
-<div class="content post__content clearfix">
+</div><div class="content post__content clearfix">
 			<p>logrus是Go语言编写的结构化日志工具，拥有丰富的日志API，支持自定义格式输出同时也支持hook操作，是目前比较流行的Go语言日志记录工具。</p>
-
 <p>先来一个官方demo感受一下什么叫做结构化日志工具，所谓结构化就是，日志记录的数据是有结构可以解析的，而不是像<code>log.Infof(&quot;A walrus appears animail %s&quot;, &quot;walrus&quot;)</code>，无法解析。接下来我们打开源码来详细看看logrus是怎么实现这些结构化日志的。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">package</span> main
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">package</span> main
 
 <span style="color:#007020;font-weight:bold">import</span> (
   log <span style="color:#4070a0">&#34;github.com/sirupsen/logrus&#34;</span>
@@ -129,13 +116,10 @@ if (!doNotTrack) {
   }).<span style="color:#06287e">Info</span>(<span style="color:#4070a0">&#34;A walrus appears&#34;</span>)
 }
 <span style="color:#60a0b0;font-style:italic">// 输出格式如下
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span> INFO[<span style="color:#40a070">0000</span>] A walrus appears                              animal=walrus</code></pre></div>
-<p>logrus的文件内容主要集中在<code>exported.go, logger.go, entry.go, formatter.go, hooks.go</code>这五个文件中，<code>logger.go</code>文件主要定义了logrus的Logger对象的结构，以及此对象实现的方法；而<code>exported.go</code>则通过使用一个包装好的<code>stdLogger</code>对象对外提供日志记录的方法，最终的日志输出是有Entry对象来实现的，日志的输出格式由<code>formatter.go</code>来控制，而日志的hook方法则有<code>hooks.go</code>来控制。</p>
-
+</span><span style="color:#60a0b0;font-style:italic">// INFO[0000] A walrus appears                              animal=walrus
+</span></code></pre></div><p>logrus的文件内容主要集中在<code>exported.go, logger.go, entry.go, formatter.go, hooks.go </code>这五个文件中，<code>logger.go</code>文件主要定义了logrus的Logger对象的结构，以及此对象实现的方法；而<code>exported.go</code>则通过使用一个包装好的<code>stdLogger</code>对象对外提供日志记录的方法，最终的日志输出是有Entry对象来实现的，日志的输出格式由<code>formatter.go</code>来控制，而日志的hook方法则有<code>hooks.go</code>来控制。</p>
 <h5 id="结构体">结构体</h5>
-
 <p>首先来看Logger struct的定义，字段的大体含义可以看代码中的注释。</p>
-
 <ul>
 <li><strong>Out</strong>：日志输出的Writer对象，可以是os.Stderr,也可以是文件；</li>
 <li><strong>Hooks</strong>：用于打印日志时的hooks操作；</li>
@@ -144,9 +128,9 @@ if (!doNotTrack) {
 <li><strong>Level</strong>：日志等级；</li>
 <li><strong>mu</strong>：并发锁，控制并发日志记录；</li>
 <li><strong>entryPool</strong>：日志内容对象的sync.Pool；</li>
-
-<li><p><strong>ExitFunc</strong>：打印日志完成后执行的方法。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> Logger <span style="color:#007020;font-weight:bold">struct</span> {
+<li><strong>ExitFunc</strong>：打印日志完成后执行的方法。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> Logger <span style="color:#007020;font-weight:bold">struct</span> {
 	Out          io.Writer
 	Hooks        LevelHooks
 	Formatter    Formatter
@@ -155,11 +139,8 @@ if (!doNotTrack) {
 	mu           MutexWrap
 	entryPool    sync.Pool
 	ExitFunc     exitFunc
-}</code></pre></div></li>
-</ul>
-
-<p>其次是日志内容对象<code>Entry</code>,这主要功能是存储日志内容以及进行日志内容写入。</p>
-
+}
+</code></pre></div><p>其次是日志内容对象<code>Entry</code>,这主要功能是存储日志内容以及进行日志内容写入。</p>
 <ul>
 <li><strong>Logger</strong>：所属的Logger对象，拥有上述Logger的内容，如io.Writer对象和Formatter对象等；</li>
 <li><strong>Data</strong>：存储的是日志的结构化数据，其类型是<code>type Fields map[string]interface{}</code> 一个map，key是字符串型，value是任意类型，存储的是<code>log.WithFileds()</code>中的数据内容；</li>
@@ -169,9 +150,9 @@ if (!doNotTrack) {
 <li><strong>Message</strong>：字符串类型，记录日志内容，通常是<code>log.Info(&quot;msg&quot;)</code>中msg的内容；</li>
 <li><strong>Buffer</strong>：当formatter调用entry.log()方法的时候设置，具体用途现在还没有弄清楚，后续补充上TODO。</li>
 <li><strong>Context</strong>：用于记录上下文信息，主要用于hook操作</li>
-
-<li><p><strong>err</strong>：存储错误信息，可能在日志内容格式化的时候出错。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> Entry <span style="color:#007020;font-weight:bold">struct</span> {
+<li><strong>err</strong>：存储错误信息，可能在日志内容格式化的时候出错。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> Entry <span style="color:#007020;font-weight:bold">struct</span> {
 	Logger  <span style="color:#666">*</span>Logger
 	Data    Fields
 	Time    time.Time
@@ -181,13 +162,10 @@ if (!doNotTrack) {
 	Buffer  <span style="color:#666">*</span>bytes.Buffer
 	Context context.Context
 	err     <span style="color:#902000">string</span>
-}</code></pre></div></li>
-</ul>
-
-<h5 id="日志等级">日志等级</h5>
-
+}
+</code></pre></div><h5 id="日志等级">日志等级</h5>
 <p>先来看看logrus支持的日志等级，共有七类，分别是<code>Panic, Fatal, Error, Warn, Info, Debug, Trace</code>，日志等级有高到低，<code>Panic</code>级别的日志是最高等级的日志，当打印日志等级为<code>Panic</code>的时候，会显示地调用panic函数，<code>Fatal</code>级别的日志会在调用后显示地调用<code>logger.Exit(1)</code>函数，然后退出当前程序。<code>Error</code>级别的日志一般用来记录程序中的error信息，通常与hooks来对error进行处理，如上报error信息给监控平台等。剩下四类日志级别就比较普通了，大家应该都懂，不再详细介绍。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">const</span> (
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">const</span> (
 	<span style="color:#60a0b0;font-style:italic">// PanicLevel level, highest level of severity. Logs and then calls panic with the
 </span><span style="color:#60a0b0;font-style:italic"></span>	<span style="color:#60a0b0;font-style:italic">// message passed to Debug, Info, ...
 </span><span style="color:#60a0b0;font-style:italic"></span>	PanicLevel Level = <span style="color:#007020;font-weight:bold">iota</span>
@@ -206,11 +184,10 @@ if (!doNotTrack) {
 </span><span style="color:#60a0b0;font-style:italic"></span>	DebugLevel
 	<span style="color:#60a0b0;font-style:italic">// TraceLevel level. Designates finer-grained informational events than the Debug.
 </span><span style="color:#60a0b0;font-style:italic"></span>	TraceLevel
-)</code></pre></div>
-<h5 id="日志对象的创建">日志对象的创建</h5>
-
+)
+</code></pre></div><h5 id="日志对象的创建">日志对象的创建</h5>
 <p>对于logrus来说，其记录的是结构化的数据，其中的数据都保存在<code>Entry</code>对象中，这块在创建一个新的Entry对象时，使用<code>sync.Pool</code>对象 entryPool，主要保存Entry指针空对象，使用完后再放回sync.Pool中，防止在记录日志的时候大量开辟内存空间，触发GC操作，从而提高日志记录的速度。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> (logger <span style="color:#666">*</span>Logger) <span style="color:#06287e">newEntry</span>() <span style="color:#666">*</span>Entry {
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> (logger <span style="color:#666">*</span>Logger) <span style="color:#06287e">newEntry</span>() <span style="color:#666">*</span>Entry {
 	entry, ok <span style="color:#666">:=</span> logger.entryPool.<span style="color:#06287e">Get</span>().(<span style="color:#666">*</span>Entry)
 	<span style="color:#007020;font-weight:bold">if</span> ok {
 		<span style="color:#007020;font-weight:bold">return</span> entry
@@ -229,19 +206,17 @@ if (!doNotTrack) {
 		<span style="color:#60a0b0;font-style:italic">// Default is three fields, plus one optional.  Give a little extra room.
 </span><span style="color:#60a0b0;font-style:italic"></span>		Data: <span style="color:#007020">make</span>(Fields, <span style="color:#40a070">6</span>),
 	}
-}</code></pre></div>
-<h5 id="日志格式化数据api">日志格式化数据API</h5>
-
+}
+</code></pre></div><h5 id="日志格式化数据api">日志格式化数据API</h5>
 <p>格式化数据填充API，主要是几个<code>With</code>开头的方法，<code>WithField</code>和<code>WithFields</code>主要是记录结构化的字段信息，保存在Entry对象的Data字段中；在这块使用到上述提到的<code>newEntry()</code>方法，就是每一次使用<code>log.WithFiled()</code>都会从entryPool 池子中拿出一个<code>*Entry</code>对象出来，然后再执行<code>entry.WithField</code>方法生成一个全新的<code>*Entry</code>对象，然后回收从池子中拿出来的<code>*Entry</code>对象。</p>
-
 <ul>
 <li><strong>WithField</strong>：生成一个全新的*Entry，存储单个键值对；</li>
 <li><strong>WithFields</strong>：生成一个全新的*Entry，存储多个键值对；</li>
 <li><strong>WithError</strong>：其实内部也是存储在Entry对象的Data字段中，只不过使用内置的<code>error</code>作为键值对的key；</li>
 <li><strong>WithContext</strong>：生成一个全新的*Entry对象，存储ctx在Entry对象的Context字段上；</li>
-
-<li><p><strong>WithTime</strong>：生成一个全新的*Entry对象，存储在Entry对象的Time字段上；</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> (logger <span style="color:#666">*</span>Logger) <span style="color:#06287e">WithField</span>(key <span style="color:#902000">string</span>, value <span style="color:#007020;font-weight:bold">interface</span>{}) <span style="color:#666">*</span>Entry {
+<li><strong>WithTime</strong>：生成一个全新的*Entry对象，存储在Entry对象的Time字段上；</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> (logger <span style="color:#666">*</span>Logger) <span style="color:#06287e">WithField</span>(key <span style="color:#902000">string</span>, value <span style="color:#007020;font-weight:bold">interface</span>{}) <span style="color:#666">*</span>Entry {
 	entry <span style="color:#666">:=</span> logger.<span style="color:#06287e">newEntry</span>()
 	<span style="color:#007020;font-weight:bold">defer</span> logger.<span style="color:#06287e">releaseEntry</span>(entry)
 	<span style="color:#007020;font-weight:bold">return</span> entry.<span style="color:#06287e">WithField</span>(key, value)
@@ -275,19 +250,15 @@ if (!doNotTrack) {
 	entry <span style="color:#666">:=</span> logger.<span style="color:#06287e">newEntry</span>()
 	<span style="color:#007020;font-weight:bold">defer</span> logger.<span style="color:#06287e">releaseEntry</span>(entry)
 	<span style="color:#007020;font-weight:bold">return</span> entry.<span style="color:#06287e">WithTime</span>(t)
-}</code></pre></div></li>
-</ul>
-
-<h5 id="日志内容api">日志内容API</h5>
-
+}
+</code></pre></div><h5 id="日志内容api">日志内容API</h5>
 <p>常见的就是三类：一类是支持日志内容格式化的API，不带格式化的，以及带换行的。</p>
-
 <ul>
 <li>格式化日志：如<code>Logf, Tracef, Debugf, Infof, Warnf, Errorf, Fatalf, Panicf</code>这类日志记录的方法都是支持格式化的，类似于<code>fmt.Printf()</code>其实底层也就是使用了<code>fmt.Sprintf()</code>将日志内容格式化为字符串。其中Fatalf函数在执行完日志记录的逻辑后，会执行<code>logger.Exit(1)</code>方法，默认是使用<code>os.Exit(1)</code>，支持自定义；</li>
-<li>不带格式化的日志：如<code>Log, Trace, Debug, Info, Warn, Error, Fatal, Panic</code>，类似于<code>fmt.Print()</code>；</li>
-
-<li><p>带换行的日志：如<code>Logln, Traceln, Debugln, Infoln, Warnln, Errorln, Fatalln, Panicln</code>，类似于<code>fmt.Println()</code>。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> (logger <span style="color:#666">*</span>Logger) <span style="color:#06287e">Logf</span>(level Level, format <span style="color:#902000">string</span>, args <span style="color:#666">...</span><span style="color:#007020;font-weight:bold">interface</span>{}) {
+<li>不带格式化的日志：如<code>Log, Trace, Debug, Info, Warn, Error, Fatal, Panic </code>，类似于<code>fmt.Print()</code>；</li>
+<li>带换行的日志：如<code>Logln, Traceln, Debugln, Infoln, Warnln, Errorln, Fatalln, Panicln</code>，类似于<code>fmt.Println()</code>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> (logger <span style="color:#666">*</span>Logger) <span style="color:#06287e">Logf</span>(level Level, format <span style="color:#902000">string</span>, args <span style="color:#666">...</span><span style="color:#007020;font-weight:bold">interface</span>{}) {
 	<span style="color:#007020;font-weight:bold">if</span> logger.<span style="color:#06287e">IsLevelEnabled</span>(level) {
 		entry <span style="color:#666">:=</span> logger.<span style="color:#06287e">newEntry</span>()
 		entry.<span style="color:#06287e">Logf</span>(level, format, args<span style="color:#666">...</span>)
@@ -303,13 +274,10 @@ if (!doNotTrack) {
 <span style="color:#007020;font-weight:bold">func</span> (logger <span style="color:#666">*</span>Logger) <span style="color:#06287e">Fatalf</span>(format <span style="color:#902000">string</span>, args <span style="color:#666">...</span><span style="color:#007020;font-weight:bold">interface</span>{}) {
 	logger.<span style="color:#06287e">Logf</span>(FatalLevel, format, args<span style="color:#666">...</span>)
 	logger.<span style="color:#06287e">Exit</span>(<span style="color:#40a070">1</span>)
-}</code></pre></div></li>
-</ul>
-
-<h5 id="std-logger-api">std Logger API</h5>
-
+}
+</code></pre></div><h5 id="std-logger-api">std Logger API</h5>
 <p>在<code>exported.go</code>文件中，封装了使用stdLogger的对外的API，这个就不多介绍了，主要是生成了一个std logger，使用os.Stderr作为输出，使用TextFormatter进行日志格式化，使用<code>InfoLevel</code>作为缺省日志记录等级，使用<code>os.Exit</code>作为Fatal日志的后续执行函数，<code>ReportCaller=false</code>不进行日志调用方信息的记录。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#60a0b0;font-style:italic">// std logger
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#60a0b0;font-style:italic">// std logger
 </span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">New</span>() <span style="color:#666">*</span>Logger {
 	<span style="color:#007020;font-weight:bold">return</span> <span style="color:#666">&amp;</span>Logger{
 		Out:          os.Stderr,
@@ -323,17 +291,15 @@ if (!doNotTrack) {
 
 <span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">WithField</span>(key <span style="color:#902000">string</span>, value <span style="color:#007020;font-weight:bold">interface</span>{}) <span style="color:#666">*</span>Entry {
 	<span style="color:#007020;font-weight:bold">return</span> std.<span style="color:#06287e">WithField</span>(key, value)
-}</code></pre></div>
-<h5 id="日志格式化">日志格式化</h5>
-
+}
+</code></pre></div><h5 id="日志格式化">日志格式化</h5>
 <p>既然logrus是结构化的日志记录工具，那么拥有将结构化数据按照执行格式进行输出的功能也就不足为奇了，logrus自带两种格式输出，一种是<code>TextFormatter</code>，另外一种是<code>JsonFormatter</code>。</p>
-
 <p>先来看看Formatter的interface的定义，就只有一个Format方法，就是将Entry中的数据内容，如Data字段存储的有结构的数据键值对，Message中存储的无结构数据，以及Time存储的日志记录时间等等，格式化成我们容易看的数据格式</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> Formatter <span style="color:#007020;font-weight:bold">interface</span> {
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> Formatter <span style="color:#007020;font-weight:bold">interface</span> {
 	<span style="color:#06287e">Format</span>(<span style="color:#666">*</span>Entry) ([]<span style="color:#902000">byte</span>, <span style="color:#902000">error</span>)
-}</code></pre></div>
-<p>它有一个自定义的字段Key，主要就是上述提到的那些日志中的内容对应的key。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">const</span> (
+}
+</code></pre></div><p>它有一个自定义的字段Key，主要就是上述提到的那些日志中的内容对应的key。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">const</span> (
 	defaultTimestampFormat = time.RFC3339
 	FieldKeyMsg            = <span style="color:#4070a0">&#34;msg&#34;</span>
 	FieldKeyLevel          = <span style="color:#4070a0">&#34;level&#34;</span>
@@ -341,18 +307,18 @@ if (!doNotTrack) {
 	FieldKeyLogrusError    = <span style="color:#4070a0">&#34;logrus_error&#34;</span>
 	FieldKeyFunc           = <span style="color:#4070a0">&#34;func&#34;</span>
 	FieldKeyFile           = <span style="color:#4070a0">&#34;file&#34;</span>
-)</code></pre></div>
-<p>以及一个基础的方法<code>prefixFieldClashes</code>，这个可以将日志中的一些字段进行进行重写，防止在进行数据格式化的时候覆盖了需要填充的字段内容。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">prefixFieldClashes</span>(data Fields, fieldMap FieldMap, reportCaller <span style="color:#902000">bool</span>) {
+)
+</code></pre></div><p>以及一个基础的方法<code>prefixFieldClashes</code>，这个可以将日志中的一些字段进行进行重写，防止在进行数据格式化的时候覆盖了需要填充的字段内容。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">func</span> <span style="color:#06287e">prefixFieldClashes</span>(data Fields, fieldMap FieldMap, reportCaller <span style="color:#902000">bool</span>) {
 	timeKey <span style="color:#666">:=</span> fieldMap.<span style="color:#06287e">resolve</span>(FieldKeyTime)
 	<span style="color:#007020;font-weight:bold">if</span> t, ok <span style="color:#666">:=</span> data[timeKey]; ok {
 		data[<span style="color:#4070a0">&#34;fields.&#34;</span><span style="color:#666">+</span>timeKey] = t
 		<span style="color:#007020">delete</span>(data, timeKey)
 	}
 	<span style="color:#666">...</span><span style="color:#60a0b0;font-style:italic">//省略了其他key的复写
-</span><span style="color:#60a0b0;font-style:italic"></span>}</code></pre></div>
-<p>下面是一个demo，日志输出内容中原本Fields中包含有key为<code>@timestamp</code>的数据，然后再输出的时候变成了<code>fields.@timestamp</code>字段。可以看到在这个例子中，使用了<code>SetFormatter</code>方法，这个地方是为日志输出设置格式化方式的，也可以使用<code>TextFormatter</code>，其内容如第一个demo中显示的那样：<code>INFO[0000] A walrus appears                              @timestamp=2019-09-01 animal=walrus</code>，默认就是这种格式化方式，在终端中执行的时候，还会对键值对的key进行着色处理；当然，也可以使用自定义的Formatter进行格式化，只需要实现<code>Format</code>方法即可。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">package</span> main
+</span><span style="color:#60a0b0;font-style:italic"></span>}
+</code></pre></div><p>下面是一个demo，日志输出内容中原本Fields中包含有key为<code>@timestamp</code>的数据，然后再输出的时候变成了<code>fields.@timestamp</code>字段。可以看到在这个例子中，使用了<code>SetFormatter</code>方法，这个地方是为日志输出设置格式化方式的，也可以使用<code>TextFormatter</code>，其内容如第一个demo中显示的那样：<code>INFO[0000] A walrus appears                              @timestamp=2019-09-01 animal=walrus</code>，默认就是这种格式化方式，在终端中执行的时候，还会对键值对的key进行着色处理；当然，也可以使用自定义的Formatter进行格式化，只需要实现<code>Format</code>方法即可。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">package</span> main
 
 <span style="color:#007020;font-weight:bold">import</span> (
 	log <span style="color:#4070a0">&#34;github.com/sirupsen/logrus&#34;</span>
@@ -373,16 +339,15 @@ if (!doNotTrack) {
 	}).<span style="color:#06287e">WithField</span>(<span style="color:#4070a0">&#34;@timestamp&#34;</span>, <span style="color:#4070a0">&#34;2019-09-01&#34;</span>).
 		<span style="color:#06287e">Info</span>(<span style="color:#4070a0">&#34;A walrus appears&#34;</span>)
 }
-<span style="color:#666">//</span> {<span style="color:#4070a0">&#34;@level&#34;</span>:<span style="color:#4070a0">&#34;info&#34;</span>,<span style="color:#4070a0">&#34;@message&#34;</span>:<span style="color:#4070a0">&#34;A walrus appears&#34;</span>,<span style="color:#4070a0">&#34;@timestamp&#34;</span>:<span style="color:#4070a0">&#34;2019-08-25T15:37:24+08:00&#34;</span>,<span style="color:#4070a0">&#34;animal&#34;</span>:<span style="color:#4070a0">&#34;walrus&#34;</span>,<span style="color:#4070a0">&#34;fields.@timestamp&#34;</span>:<span style="color:#4070a0">&#34;2019-09-01&#34;</span>}</code></pre></div>
-<h5 id="hook">Hook</h5>
-
+<span style="color:#60a0b0;font-style:italic">// {&#34;@level&#34;:&#34;info&#34;,&#34;@message&#34;:&#34;A walrus appears&#34;,&#34;@timestamp&#34;:&#34;2019-08-25T15:37:24+08:00&#34;,&#34;animal&#34;:&#34;walrus&#34;,&#34;fields.@timestamp&#34;:&#34;2019-09-01&#34;}
+</span></code></pre></div><h5 id="hook">Hook</h5>
 <p>俗称钩子，就是在执行日志记录之前执行一段逻辑。我们可以先看一下Hook的interface定义，Levels函数主要定义的是那些日志级别需要执行特殊操作，而具体执行的逻辑则由Fire函数进行处理。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> Hook <span style="color:#007020;font-weight:bold">interface</span> {
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">type</span> Hook <span style="color:#007020;font-weight:bold">interface</span> {
 	<span style="color:#06287e">Levels</span>() []Level
 	<span style="color:#06287e">Fire</span>(<span style="color:#666">*</span>Entry) <span style="color:#902000">error</span>
-}</code></pre></div>
-<p>可以来看个简单的例子，我自定义了一个HookDemo，然后实现了<code>Levels</code>函数和<code>Fire</code>函数，可以看到，我在<code>Levels()</code>函数只返回了<code>WarnLevel</code>和<code>ErrorLevel</code>，也就是说，只有这两种级别的日志才会执行<code>Fire</code>函数，然后我在<code>Fire()</code>函数中输出了Entry对象的Data字段内容。</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">package</span> main
+}
+</code></pre></div><p>可以来看个简单的例子，我自定义了一个HookDemo，然后实现了<code>Levels</code>函数和<code>Fire</code>函数，可以看到，我在<code>Levels()</code>函数只返回了<code>WarnLevel</code>和<code>ErrorLevel</code>，也就是说，只有这两种级别的日志才会执行<code>Fire</code>函数，然后我在<code>Fire()</code>函数中输出了Entry对象的Data字段内容。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#007020;font-weight:bold">package</span> main
 
 <span style="color:#007020;font-weight:bold">import</span> (
 	<span style="color:#4070a0">&#34;fmt&#34;</span>
@@ -413,15 +378,17 @@ if (!doNotTrack) {
 }
 <span style="color:#60a0b0;font-style:italic">//INFO[0000] A walrus appears                              @timestamp=2019-09-01 animal=walrus
 </span><span style="color:#60a0b0;font-style:italic">//this is a hook func:map[]
-</span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#666">//</span>ERRO[<span style="color:#40a070">0000</span>] this is a <span style="color:#902000">error</span> msg          </code></pre></div>
-<p>那hook函数一般可以用开干什么呢？可以上报Error错误给我们的监控平台，只需要在<code>Fire()</code>函数中将错误内容上报给监控系统即可；还可以进行日志文件分割，按照日志文件大小或者日期进行日志文件切割；将日志发送到其他地方如：elasticsearch等。</p>
+</span><span style="color:#60a0b0;font-style:italic">//ERRO[0000] this is a error msg          
+</span></code></pre></div><p>那hook函数一般可以用开干什么呢？可以上报Error错误给我们的监控平台，只需要在<code>Fire()</code>函数中将错误内容上报给监控系统即可；还可以进行日志文件分割，按照日志文件大小或者日期进行日志文件切割；将日志发送到其他地方如：elasticsearch等。</p>
 		</div>
 		<footer class="post__footer">
 			
 <div class="post__tags tags clearfix">
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
-		<li class="tags__item"><a class="tags__link btn" href="/tags/log/" rel="tag">log</a></li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/log/" rel="tag">log</a>
+		</li>
 	</ul>
 </div>
 		</footer>
@@ -440,12 +407,33 @@ if (!doNotTrack) {
 	</div>
 </div>
 
-<nav class="post-nav flex">
-	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/posts/golang/interview/" rel="prev"><span class="post-nav__caption">«&thinsp;上一篇</span><p class="post-nav__post-title">Go 面试要点</p></a>
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/golang/interview/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;上一篇</span>
+			<p class="pager__title">Go 面试要点</p>
+		</a>
 	</div>
-	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/posts/db/mysql_explain/" rel="next"><span class="post-nav__caption">下一篇&thinsp;»</span><p class="post-nav__post-title">MySQL EXPLAIN</p></a>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/db/mysql_explain/" rel="next">
+			<span class="pager__subtitle">下一篇&thinsp;»</span>
+			<p class="pager__title">MySQL EXPLAIN</p>
+		</a>
+	</div>
+</nav>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/golang/interview/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;上一篇</span>
+			<p class="pager__title">Go 面试要点</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/db/mysql_explain/" rel="next">
+			<span class="pager__subtitle">下一篇&thinsp;»</span>
+			<p class="pager__title">MySQL EXPLAIN</p>
+		</a>
 	</div>
 </nav>
 <div id="git-comments"></div>
@@ -469,7 +457,7 @@ if (!doNotTrack) {
 			<aside class="sidebar"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
-			<input class="widget-search__field" type="search" placeholder="搜索..." value="" name="q" aria-label="搜索...">
+			<input class="widget-search__field" type="search" placeholder="搜索…" value="" name="q" aria-label="搜索…">
 		</label>
 		<input class="widget-search__submit" type="submit" value="Search">
 		<input type="hidden" name="sitesearch" value="http://jankeyfu.github.io/" />
@@ -492,32 +480,23 @@ if (!doNotTrack) {
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/docker/">docker</a>
-			</li>
+				<a class="widget__link" href="/categories/docker/">docker</a></li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/golang/">golang</a>
-			</li>
+				<a class="widget__link" href="/categories/golang/">golang</a></li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/linux/">linux</a>
-			</li>
+				<a class="widget__link" href="/categories/linux/">linux</a></li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-			</li>
+				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-			</li>
+				<a class="widget__link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
-			</li>
+				<a class="widget__link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a></li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E8%AE%BE%E8%AE%A1/">设计</a>
-			</li>
+				<a class="widget__link" href="/categories/%E8%AE%BE%E8%AE%A1/">设计</a></li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a>
-			</li>
+				<a class="widget__link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a></li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-			</li>
+				<a class="widget__link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 		</ul>
 	</div>
 </div>
@@ -562,8 +541,8 @@ if (!doNotTrack) {
 	<div class="container footer__container flex">
 		
 		<div class="footer__copyright">
-			&copy; 2020 温故知新以为师.
-			<span class="footer__copyright-credits">基于 <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> 引擎和 <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a>主題</span>
+			&copy; 2021 温故知新以为师.
+			<span class="footer__copyright-credits">基于 <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> 引擎和 <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> 主题</span>
 		</div>
 		<span id="busuanzi_container_site_pv">
 			本站总访问量<span id="busuanzi_value_site_pv"></span>次
