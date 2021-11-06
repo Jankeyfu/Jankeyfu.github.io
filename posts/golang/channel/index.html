@@ -41,19 +41,6 @@ if (!doNotTrack) {
 <script async src="//cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script>
-    $(document).ready(function() {
-        var int = setInterval(fixCount, 100);
-        var busuanziSiteOffset =  1563197709 
-        function fixCount() {
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                clearInterval(int);
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + busuanziSiteOffset);
-            }
-        }
-    });
-</script>
-
 
 </head>
 <body class="body">
@@ -248,21 +235,6 @@ if (!doNotTrack) {
 		某不知名公司的某不知名程序员！
 	</div>
 </div>
-
-<nav class="pager flex">
-	<div class="pager__item pager__item--prev">
-		<a class="pager__link" href="/posts/algorithm/bloom_filter/" rel="prev">
-			<span class="pager__subtitle">«&thinsp;上一篇</span>
-			<p class="pager__title">布隆过滤器（Bloom Filter）</p>
-		</a>
-	</div>
-	<div class="pager__item pager__item--next">
-		<a class="pager__link" href="/posts/golang/context/" rel="next">
-			<span class="pager__subtitle">下一篇&thinsp;»</span>
-			<p class="pager__title">Go Context</p>
-		</a>
-	</div>
-</nav>
 
 <nav class="pager flex">
 	<div class="pager__item pager__item--prev">

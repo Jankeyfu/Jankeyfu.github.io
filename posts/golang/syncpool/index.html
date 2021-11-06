@@ -42,19 +42,6 @@ if (!doNotTrack) {
 <script async src="//cdn.busuanzi.ibruce.info/cdn/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script>
-    $(document).ready(function() {
-        var int = setInterval(fixCount, 100);
-        var busuanziSiteOffset =  1563197709 
-        function fixCount() {
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                clearInterval(int);
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + busuanziSiteOffset);
-            }
-        }
-    });
-</script>
-
 
 </head>
 <body class="body">
@@ -268,21 +255,6 @@ BenchmarkWithPool-4   	69199653	        16.2 ns/op	       <span style="color:#40
 		某不知名公司的某不知名程序员！
 	</div>
 </div>
-
-<nav class="pager flex">
-	<div class="pager__item pager__item--prev">
-		<a class="pager__link" href="/posts/design/grafana/" rel="prev">
-			<span class="pager__subtitle">«&thinsp;上一篇</span>
-			<p class="pager__title">Prometheus &#43; Grafana 配置系统监控</p>
-		</a>
-	</div>
-	<div class="pager__item pager__item--next">
-		<a class="pager__link" href="/posts/algorithm/bloom_filter/" rel="next">
-			<span class="pager__subtitle">下一篇&thinsp;»</span>
-			<p class="pager__title">布隆过滤器（Bloom Filter）</p>
-		</a>
-	</div>
-</nav>
 
 <nav class="pager flex">
 	<div class="pager__item pager__item--prev">
